@@ -1,0 +1,80 @@
+<div class="container" ng-controller='adminController_edit'>
+	<title>Sửa Blog</title>
+	<h2 style="text-align:center">Sửa Blog </h2>
+	<div style="color:red">
+			Thông báo
+			<div class="well">
+				<p ng-show="thongbao.url!=''">{{thongbao.url}}</p>
+				<p ng-show="thongbao.ten!=''">{{thongbao.ten}}</p>
+				<p ng-show="thongbao.tags!=''">{{thongbao.tags}}</p>
+				<p ng-show="thongbao.noidung!=''">{{thongbao.noidung}}</p>
+				<p ng-show="thongbao.noidungdaidien!=''">{{thongbao.noidungdaidien}}</p>
+			</div>
+	</div>
+	<br/>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1">Tên blog</span>
+		<input type="text" class="form-control" ng-model="Blog.ten" value="{{Blog.ten}}">
+		<span class="input-group-btn">
+			<button class="btn btn-danger" type="button" ng-click="editBlogTen()" ng-disabled="thongbao.ten!=''">Sửa</button>
+		</span>
+	</div>
+	<br />
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1">Ngày viết</span>
+		<input type="text" class="form-control" readonly="true" value="{{Blog.ngayviet | date:'dd/MM/yyyy lúc h:mma':'+0700'}}">
+	</div>
+	<br/>
+	<div class="form-group form-inline">
+		<div>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1">Tags</span>
+				<select class="form-control" ng-model="TagIndex" style="min-width:400px;">
+					<option ng-repeat='tag in Blog.tags'>{{tag}}</option>
+				</select>
+				<span class="input-group-btn">
+					<button class="btn btn-danger" type="button" ng-click="removeTag()">Xóa tag</button>
+				</span>
+			</div>
+			<div class="input-group pull-right">
+				<input type="text" class="form-control" ng-model="NewTag" style="min-width:400px;">
+				<span class="input-group-btn">
+					<button class="btn btn-danger" type="button" ng-click="addNewTag()" ng-disabled="thongbao.newtag!=''">Thêm tag</button>
+				</span>
+			</div>
+		</div>
+		<div>
+			<div class="input-group">
+				<p style="color:blue">Tags : {{Blog.tags.toString()}}</p>
+			</div>
+			<div class="input-group pull-right">
+				<p style="color:red">{{thongbao.newtag}}</p>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1">Url: procleaner.vn/blog/</span>
+		<input type="text" class="form-control" ng-model="Blog.url" value="{{Blog.url}}">
+		<span class="input-group-btn">
+			<button class="btn btn-danger" ng-disabled="thongbao.url!=''" ng-click="editBlogUrl()" type="button">Sửa</button>
+		</span>
+	</div>
+	<br/>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1">Nội dung đại diện</span>
+		<text-angular ng-model="Blog.noidungdaidien"></text-angular>
+		<span class="input-group-btn">
+			<button class="btn btn-danger" type="button" ng-click="editBlogNoidungdaidien()" ng-disabled="thongbao.noidungdaidien">Sửa</button>
+		</span>
+	</div>
+	<br/>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1">Nội dung</span>
+		<text-angular ng-model="Blog.noidung"></text-angular>
+		<span class="input-group-btn">
+			<button class="btn btn-danger" type="button" ng-click="editBlogNoidung()" ng-disabled="thongbao.noidung">Sửa</button>
+		</span>
+	</div>
+	<br/>
+</div>

@@ -1,0 +1,32 @@
+<div ng-controller="adminController_doitac">
+  <title>Quản lý đối tác/khách hàng</title>
+  <div layout="row" layout-align="space-around start" style="padding-top:10px;">
+    <a style="font-size:20px;" ng-href="/blog_admin" class="btn btn-danger btn-sm">Quản lý blog</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/img" class="btn btn-danger btn-sm">Quản lý hình</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/doitac" class="btn btn-danger btn-sm">Quản lý đối tác/khách hàng</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/newblog" class="btn btn-danger btn-sm">Thêm blog</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/img/newimg" class="btn btn-danger btn-sm">Thêm hình</a>
+  </div>
+  <div style="padding:50px;" layout="column">
+    <p style="color:red">Lưu ý : logo có kích thước 100x100px </p>
+  	<input type="text" ng-model="NewPartner.ten" placeholder="Tên đối tác" style="width:50%;margin-top:10px">
+  	<input type="text" ng-model="NewPartner.url" placeholder="Url hình logo đối tác" style="width:50%;margin-top:10px">
+  	<button class="btn btn-primary" ng-click="addPartner()" style="width:25%;margin-top:10px;">Thêm đối tác/Khách hàng</button>
+  </div>
+  <hr>
+  <table ng-table="tableParams" show-filter="true" class="table">
+    <tr ng-repeat="partner in $data">
+      <td title="'Hình'">
+        <img ng-src="{{partner.url}}" class="img-responsive" style="max-width:200px">
+      </td>
+      <td title="'Tên'" filter="{ ten: 'text'}" sortable="'ten'">{{partner.ten}}</td>
+      <td title="'Url'" filter="{ url: 'text'}" sortable="'url'">{{partner.url}}</td>
+      <td title="'Xem đủ kích thước'">
+        <a ng-href="{{partner.url}}" target="_self" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+      </td>
+      <td title="'Xóa'">
+        <a ng-click="removePartner(partner._id)"  class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+      </td>
+    </tr>
+  </table>
+</div>

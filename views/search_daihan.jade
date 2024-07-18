@@ -1,0 +1,399 @@
+﻿extends layout
+
+block search
+  base(href='/')
+  .container.wrapper(ng-controller='searchdhController' ng-init='initDataFirstTime()')
+    title ProCleaner - Tìm kiếm dài hạn
+    .row.content(ng-show='isSearch')
+      .col-lg-3.content-left
+        md-toolbar.md-whiteframe-2dp
+          .md-toolbar-tools
+            h4.chutrang 
+              i.fa.fa-search
+              |   Tìm kiếm
+        md-content.md-whiteframe-2dp(flex='', layout-padding='')
+          div.form-inline.xanhnhat
+            md-subheader
+              i.fa.fa-calendar.padright.xanhnhat 
+              | Ngày
+              i.fa.fa-warning.pull-right.padright.xanhnhat
+                md-tooltip(md-direction="left")
+                  | Thay đổi ngày sẽ mất các lựa chọn hiện tại
+            .form-inline
+              .form-group
+                input#ngaybd.marleft.form-control.timewidthhalf.dpindex(type='text', name='ngay', placeholder='Chọn ngày', readonly='readonly', autocomplete='off', ng-model='data.ngaybd', ng-change='changeFilter()')
+
+                input#ngaykt.form-control.timewidthhalf.dpindex(type='text', name='ngay', placeholder='Chọn ngày', readonly='readonly', autocomplete='off', ng-model='data.ngaykt', ng-change='changeFilter()')
+              div
+                p.red {{thongbaongay}}
+          div.form-inline.xanhnhat
+            md-subheader
+              i.fa.fa-clock-o.padright.xanhnhat 
+              | Giờ
+              i.fa.fa-warning.pull-right.padright.xanhnhat
+                md-tooltip(md-direction="left")
+                  | Thay đổi giờ sẽ mất các lựa chọn hiện tại
+          .form-inline
+            .form-group
+              select#giobd_sl.timewidthhalf.form-control.marleft.sb.fixWTime.selectpicker(ng-model="data.giobd1" ng-options="obj.id as obj.name for obj in data.availableOptions" ng-change='changeFilter()')
+                option(value='' disabled) Từ giờ
+              input#gbdnh.form-control.sb(type='hidden', name='giobd1', value='{{data.giobd1}}')
+
+              select#giokt_sl.timewidthhalf.form-control.sb.fixWTime.selectpicker(ng-model="data.giokt1" ng-options="obj.id as obj.name for obj in data.availableOptions" ng-change='changeFilter()')
+                option(value='' disabled) Đến giờ
+              input#gktnh.form-control.sb(type='hidden', name='giokt1', value='{{data.giokt1}}')
+            div
+              p.red {{thongbaogio}}
+          // số năm kinh nghiệm ---------------------------------------------------
+          div.form-inline
+            div.xanhnhat
+              md-subheader
+                i.fa.fa-briefcase.padright.xanhnhat 
+                | Kinh Nghiệm
+            md-radio-group(ng-model='data.sonamkn')
+              div(ng-repeat='kn in kinhnghiems')
+                md-radio-button(value='{{kn.id}}')
+                  {{kn.ten}}
+          // dịch vụ ---------------------------------------------------
+          div.form-inline
+            div.xanhnhat
+              md-subheader
+                i.fa.fa-tags.padright.xanhnhat 
+                | Dịch vụ
+            div(layout="row" layout-align="center center" ng-if='loading_dichvu')
+              i.fa.fa-2x.fa-cog.fa-spin.xanhnhat
+            div(ng-repeat='tieuchi in tieuchis')
+              md-checkbox.md-primary.md-align-top-left(ng-model='tieuchi.data' ng-change='changeFilter()' ng-click='them_filter_dichvu(tieuchi.ten, tieuchi.data, data)')
+                | {{tieuchi.ten}}
+          // Quận ---------------------------------------------------
+          div.form-inline
+            div.xanhnhat
+              md-subheader
+                i.fa.fa-map-marker.padright.xanhnhat 
+                | Quận
+                i.fa.fa-warning.pull-right.padright.xanhnhat
+                  md-tooltip(md-direction="left")
+                    | Thay đổi quận sẽ mất các lựa chọn hiện tại
+            md-radio-group(ng-model='data.quan', ng-change='changeFilter()')
+              div(ng-repeat='quan in quans')
+                md-radio-button(value='{{quan.ten}}')
+                  {{quan.ten}}
+      .col-lg-9.content-right
+        div
+          md-whiteframe.md-whiteframe-2dp.topboxfilter(layout='row')
+            md-radio-group(layout='row' layout-align='space-between center' ng-model='data.locdaihan' ng-change='changeFilter()')
+              md-radio-button.martop(ng-repeat='locdh in locdaihan' value='{{locdh.id}}')
+                | {{locdh.ten}}
+            div(flex='20' layout="row" layout-align="end center")
+              button.marright.btn.btn-danger.pull-right(type='button' ng-click='show_yeucau()')
+                i.fa.fa-shopping-cart
+                |  Yêu cầu giúp việc
+          div.tabmartop(ui-calendar="uiConfig.calendar" ng-model="eventSources" ng-if='!isDetail')
+        div(ng-if='isDetail')
+          md-toolbar.md-whiteframe-2dp
+            div(layout="row" layout-align="space-between center")
+              .md-toolbar-tools
+                h4.chutrang 
+                  i.fa.fa-search
+                  |   Thông tin chi tiết - ngày {{detailData.ngaythuchien | date:'dd/MM/yyyy':'0000'}}
+              div
+                button.marleftbtn.btn.btn-danger.marright(type='button' ng-click='backToCalendar()')
+                  i.fa.fa-arrow-left
+                  |  Quay lại
+          md-content.md-whiteframe-2dp()
+            .vdivide(layout='row')
+              .div
+                md-sidenav.md-sidenav-left.md-whiteframe-z2(md-is-open='true' md-component-id='left')
+                  md-content
+                    md-list(ng-cloak='')
+                    md-subheader.md-no-sticky Danh sách nhân viên phù hợp
+                    md-divider
+                    md-list-item(ng-repeat='ngvph in detailData.dsNgvPhuHop' ng-show='filtering(ngvph.data, ngvph.selected)')
+                      md-checkbox(style='margin-left: 0px!important' ng-model='ngvph.selected' ng-change='chonNgvSideNav()')
+                      img.md-avatar(alt='Ảnh đại diện', ng-src='{{ "http://procleaner.vn:3000/public/images/ngv/" + ngvph.data.hinhanh }}')
+                      p {{ngvph.data.hoten}}
+                      md-button.md-fab.md-mini.md-primary.chutrang(ng-click='xemChiTietDh(ngvph.data)')
+                        md-tooltip(md-direction="left")
+                          | Xem chi tiết
+                        i.fa.fa-info
+                      md-divider
+              .div(flex='')
+                md-content.thongtinct-daihan-body
+                  div(layout='row' layout-align="space-between center")
+                    md-subheader.md-no-sticky Chi tiết nhân viên
+                    md-button.md-fab.md-mini.md-primary.chutrang(ng-click='toggleSideNav()')
+                      md-tooltip(md-direction="left" md-visible='true')
+                        | Danh sách nhân viên
+                      i.fa.fa-list
+                  md-divider
+                  div(layout-padding ng-if='detailData.ngvDetail==null')
+                    h3.center Chọn một nhân viên từ danh sách để xem chi tiết.
+                  div(layout-padding ng-if='detailData.ngvDetail!=null')
+                    .row
+                      .col-md-4
+                        a(href='#')
+                          img.img-responsive(ng-src='{{"http://procleaner.vn:3000/public/images/ngv/" + detailData.ngvDetail.hinhanh}}', alt='Ảnh đại diện')
+                        .rating
+                          i.fa.fa-2x.fa-star.xanhnhat
+                          i.fa.fa-2x.fa-star.xanhnhat
+                          i.fa.fa-2x.fa-star.xanhnhat
+                          i.fa.fa-2x.fa-star-o.xanhnhat
+                          i.fa.fa-2x.fa-star-o.xanhnhat
+                      .col-md-8
+                        .div(layout="row" layout-align="start start")
+                          i.fa.fa-user.fa-2x.padright.xanhnhat
+                          p.detailname {{detailData.ngvDetail.hoten}}
+                        md-divider
+                        .row
+                          .col-md-12
+                            .div(layout="row")
+                              div(flex='30')
+                                h3.i.fa.fa-map-marker.padright.xanhnhat 
+                                | {{detailData.ngvDetail.diachi.quan}}
+                              div(flex='40')
+                                h3.i.fa.fa-venus-mars.padright.xanhnhat 
+                                | {{detailData.ngvDetail.gioitinh}}
+                              div(flex='30')
+                                h3.i.fa.fa-graduation-cap.padright.xanhnhat 
+                                | {{detailData.ngvDetail.trinhdohocvan}}
+                            .div(layout="row")
+                              div(flex='30')
+                                h3.i.fa.fa-birthday-cake.padright.xanhnhat 
+                                | {{tinh_tuoi_ngv(detailData.ngvDetail.ngaysinh)+' tuổi'}}
+                              div(flex='40')
+                                h3.i.fa.fa-briefcase.padright.xanhnhat 
+                                | {{detailData.ngvDetail.sonamkinhnghiem+' năm kinh nghiệm'}}
+                              div(flex='30')
+                                h3.i.fa.fa-heart.padright.xanhnhat 
+                                | {{detailData.ngvDetail.tinhtranghonnhan}}
+                        .row.form-inline(style='font-size: 15px;')
+                          .col-md-12
+                            h3.i.fa.fa-tags.padright.xanhnhat 
+                            | Sở trường  
+                            div.form-group
+                              input.btn.btn-danger.btn-xs.tagmargin(ng-repeat='st in detailData.ngvDetail.sotruong' type='button' value='{{st}}')
+                    .row.tabmartop
+                      .col-md-12
+                        md-tabs(md-dynamic-height='', md-border-bottom='')
+                          md-tab
+                            md-tab-label
+                              i.fa.fa-paperclip
+                              |    Đánh giá chung
+                            md-tab-body
+                              md-content.md-padding
+                                h1.md-display-2.center Đánh giá chung
+                                p
+                                  | {{detailData.ngvDetail.danhgia}}
+                          md-tab
+                            md-tab-label
+                              i.fa.fa-history
+                              |    Mô tả kinh nghiệm
+                            md-tab-body
+                              md-content.md-padding
+                                h1.md-display-2.center Mô tả kinh nghiệm
+                                p
+                                  | {{detailData.ngvDetail.motakinhnghiem}}
+                          md-tab
+                            md-tab-label
+                              i.fa.fa-exclamation-circle
+                              |    Thông tin chi tiết
+                            md-tab-body
+                              md-content.md-padding
+                                h1.md-display-2.center Thông tin chi tiết 
+                                p
+                                  | - Cân nặng : {{detailData.ngvDetail.cannang}} kg.
+                                p
+                                  | - Chiều cao : {{detailData.ngvDetail.chieucao}} cm.
+                                p
+                                  | - Dân tộc : Kinh.
+                                p
+                                  | - Trình độ học vấn : {{detailData.ngvDetail.trinhdohocvan}}.
+                                p
+                                  | - Tình trạng hôn nhân : {{detailData.ngvDetail.tinhtranghonnhan}}.
+                                p(ng-show='detailData.ngvDetail.tinhtranghonnhan!="Độc thân"')
+                                  | - Con cái : {{detailData.ngvDetail.thongtincon.length}}
+                                p.padleft(ng-show='detailData.ngvDetail.tinhtranghonnhan!="Độc thân"', ng-repeat='con in detailData.ngvDetail.thongtincon')
+                                  | • Tuổi : {{con.tuoi}}
+                          md-tab
+                            md-tab-label
+                              i.fa.fa-stethoscope
+                              |    Giấy khám sức khỏe
+                            md-tab-body
+                              md-content.md-padding
+                                h1.md-display-2.center Giấy khám sức khỏe
+                                  slick.slicktest(settings='slickconfig', ng-if='numberLoaded')
+                                    div(ng-repeat='gksk in detailData.ngvDetail.giaykhamsuckhoe')
+                                      img.center.img-responsive(ng-src='{{"http://procleaner.vn:3000/public/images/ngv/" + gksk}}', alt='Giấy khám sức khỏe')
+    .row.content(ng-show='isThanhToan')
+      .col-lg-2
+      .col-lg-8
+        div.md-whiteframe-5dp(ng-if='hoanthanh_thanhtoan_dh || loading_yeucau')
+          div.modal-header
+            h4.biggerfont.modal-title.xanhdam.center Thông tin yêu cầu
+          div#mypanel.modal-body
+            div.modal-thanhtoan-height(layout="row" layout-align="center center" ng-if='loading_yeucau')
+              i.fa.fa-4x.fa-cog.fa-spin.xanhnhat
+            div.modal-thanhtoan-height(layout="row" layout-align="center center" ng-if='hoanthanh_thanhtoan_dh')
+              h3 Yêu cầu của quý khách đã được chấp nhận, chúng tôi sẽ liên hệ trong lịch làm việc gần nhất.
+          div.modal-footer(ng-if='hoanthanh_thanhtoan_dh')
+            button.marleft.btn.btn-danger.pull-right(type="button" ng-click='hoanthanh_thanhtoan(1)')
+                i.fa.fa-check
+                |  Xem lịch sử đơn hàng
+            button.marleft.btn.btn-danger.pull-right(type="button" ng-click='hoanthanh_thanhtoan(2)')
+              i.fa.fa-check
+              |  Về trang chủ
+        md-tabs.md-whiteframe-5dp(md-dynamic-height='', md-border-bottom='', md-stretch-tabs='always' ng-if='!hoanthanh_thanhtoan_dh && !loading_yeucau')
+          md-tab
+            md-tab-label
+              i.fa.fa-shopping-cart
+              |    Thông tin yêu cầu
+            md-tab-body
+              md-content.md-padding
+                form(name='formthanhtoan', novalidate)
+                  div#mypanel.modal-body
+                    div.modal-thanhtoan-height(layout="row" layout-align="center center" ng-show='loading_yeucau')
+                      i.fa.fa-4x.fa-cog.fa-spin.xanhnhat
+                    div(layout="row" layout-align="center center" ng-show='hoanthanh_thanhtoan_dh')
+                      h3 Yêu cầu của quý khách đã được chấp nhận, chúng tôi sẽ liên hệ trong lịch làm việc gần nhất.
+                    div(layout="row" layout-align="center center" ng-show='thatbai_thanhtoan_nh')
+                      h3 Đã có lỗi trong khi xử lý! quý khách vui lòng thử lại sau.
+                    md-content(layout-padding='' ng-show='!(loading_yeucau || hoanthanh_thanhtoan_dh || thatbai_thanhtoan_nh)')
+                      div(layout='', layout-sm='column')
+                        md-input-container(style='width:48%')
+                          label 
+                            i.fa.fa-phone.xanhnhat.padright
+                            | Số đtdđ
+                          input(md-maxlength="15", ng-pattern="/^[0-9]+$/", required, name="sdt", ng-model='khachhang.sdt' autocomplete='off')
+                          div(ng-messages='formthanhtoan.sdt.$error')
+                            div(ng-message='pattern') Số điện thoại không đúng quy định(số từ 1-9).
+                            div(ng-message='required') Thông tin bắt buộc.
+                            div(ng-message='md-maxlength') Số điện thoại không được nhiều hơn 30 ký tự.
+                        md-input-container(style='width:48%')
+                          label 
+                            a.i.fa.fa-shield.xanhnhat.padright
+                            | Mã xác nhận
+                          input(autocomplete='off', ng-model='maxacnhan.nguoidung')
+                        md-button.md-fab.md-mini.md-primary.chutrang(ng-click='layMaXacNhan()', ng-disabled='dalayMXN')
+                          md-tooltip
+                            | Lấy mã xác nhận
+                          i.fa.fa-shield
+                      div(layout='', layout-sm='column')
+                        md-input-container(flex)
+                          label 
+                            i.fa.fa-user.xanhnhat.padright
+                            | Họ tên
+                          input(md-maxlength="30", required, name="hoten", ng-model='khachhang.hoten' autocomplete='off')
+                          div(ng-messages='formthanhtoan.hoten.$error')
+                            div(ng-message='required') Thông tin bắt buộc.
+                            div(ng-message='md-maxlength') Tên không được quá 30 ký tự.
+                      div(layout='', layout-sm='column')
+                        md-input-container(style='width:96%')
+                          label 
+                            i.fa.fa-map-marker.xanhnhat.padright
+                            | Địa chỉ
+                          input(md-maxlength="150", required, name="diachi", ng-model='khachhang.diachi' autocomplete='off')
+                          div(ng-messages='formthanhtoan.diachi.$error')
+                            div(ng-message='required') Thông tin bắt buộc.
+                            div(ng-message='md-maxlength') Địa chỉ không được nhiều hơn 150 ký tự.
+                        md-button.md-fab.md-mini.md-primary.chutrang(ng-click='layDiaChi()')
+                          md-tooltip
+                            | Lấy địa chỉ hiện tại
+                          i.fa.fa-map
+                      div(layout='', layout-sm='column')
+                        md-input-container(style='width:87%')
+                          label
+                            i.fa.fa-map-marker.xanhnhat.padright
+                            | Thành phố
+                          input(value='Tp.Hồ Chí Minh' disabled)
+                        md-input-container(style='width:87%')
+                          label 
+                            i.fa.fa-map-marker.xanhnhat.padright
+                            | Quận
+                          input(value='{{data.quan}}' disabled)
+                      div(layout='', layout-sm='column')
+                        md-input-container(style='width:25%')
+                          label 
+                            i.fa.fa-calendar.xanhnhat.padright
+                            | Từ ngày
+                          input(disabled, ng-model='data.ngaybd')
+                        md-input-container(style='width:25%')
+                          label 
+                            i.fa.fa-calendar.xanhnhat.padright
+                            | Đến ngày
+                          input(disabled, ng-model='data.ngaykt')
+                        md-input-container(style='width:25%')
+                          label 
+                            a.i.fa.fa-clock-o.xanhnhat.padright
+                            | Giờ bắt đầu
+                          input(disabled, value='{{Math.floor(data.giobd1/60)+":"+data.giobd1%60}}')
+                        md-input-container(style='width:25%')
+                          label 
+                            a.i.fa.fa-clock-o.xanhnhat.padright
+                            | Giờ kết thúc
+                          input(disabled, value='{{Math.floor(data.giokt1/60)+":"+data.giokt1%60}}')
+                      div(layout='column', layout-sm='column')
+                        div(layout="row")
+                          i.fa.fa-tag.xanhnhat.padright
+                          | Dịch vụ
+                        div(layout="row", layout-wrap='', flex='')
+                          div(ng-repeat='tieuchi in tieuchis', flex='50')
+                            md-checkbox.md-primary(ng-model='tieuchi.data' disabled)
+                              | {{tieuchi.ten}}
+                      div(layout='', layout-sm='column')
+                        md-input-container(style='width:50%')
+                          label 
+                            a.i.fa.fa-money.xanhnhat.padright
+                            | Phí cơ bản
+                          input(disabled, value='{{showPhiCoBan()+"  VNĐ"}}')
+                        md-input-container(style='width:25%')
+                          label 
+                            a.i.fa.fa-money.xanhnhat.padright
+                            | Phí ngoài giờ
+                          input(disabled, value='{{showPhiNgoaiGio()+"  VNĐ"}}')
+                        md-input-container(style='width:25%')
+                          label 
+                            a.i.fa.fa-money.xanhnhat.padright
+                            | Phụ phí
+                          input(disabled, value='{{showTrangThaiYc()}}')
+                      div(layout='', layout-sm='column')
+                        md-input-container(flex)
+                          label 
+                            a.i.fa.fa-money.xanhnhat.padright
+                            | Tổng chi phí
+                          input(disabled, value='{{tinhtien_dh()+"  VNĐ"}}')
+                  div.modal-footer
+                    button.marleft.btn.btn-danger.pull-right(type="submit", ng-disabled="formthanhtoan.$invalid", ng-click='luu_yeucau()')
+                      i.fa.fa-check
+                      |  Đồng ý
+                    button.marleft.btn.btn-danger.pull-right(type='button' ng-click='close_thanhtoan()')
+                      i.fa.fa-remove
+                      |  Hủy
+          md-tab
+            md-tab-label
+              i.fa.fa-list
+              |    Chi tiết đơn hàng
+            md-tab-body
+              md-content.md-padding
+                md-list-item
+                  div(layout='row', flex='20')
+                    p Ngày
+                  div(layout='row', flex='20')
+                    p Giờ 
+                  div(flex='60', layout='column')
+                    div(layout='row', layout-align="space-between start")
+                      p Nhân viên
+                      p Giá tiền
+                  md-divider
+                md-list-item(ng-repeat='yeucau in data.lichdaihan | orderBy: "ngay"')
+                  div(layout='row', flex='20')
+                    p {{yeucau.ngay | date:'dd-MM-yyyy':'0000'}}
+                  div(layout='row', flex='20')
+                    p {{'Từ '+ Math.floor(data.giobd1/60) + ':' + data.giobd1%60 + ' đến ' +  Math.floor(data.giokt1/60) + ':' + data.giokt1%60}}  
+                  div(flex='60', layout='column')
+                    div(layout='row', layout-align="space-between start", ng-repeat='ngv in yeucau.dsNgvPhuHop' ng-if='ngv.selected')
+                      p {{ngv.data.hoten + '  '}}
+                      p {{tinhtiendhTungNgay() + ' VNĐ'}}
+                  md-divider
+      .col-lg-2
+
+          

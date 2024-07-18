@@ -1,0 +1,20 @@
+.selected img {
+  opacity: 0.5;
+}
+.carousel-control.left, .carousel-control.right {
+  background-image: none;
+  width: 10%;
+}
+#detailCarousel {
+  margin-bottom: 4px;
+}
+#slider-thumbs ul li {
+  padding: 0 5px 0 0;
+}
+#slider-thumbs ul li a {
+  cursor: pointer;
+}
+#slider-thumbs ul li a img {
+  width: 80px;
+  height: 60px;
+}
