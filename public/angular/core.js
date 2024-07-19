@@ -1,9 +1,9 @@
 ﻿(function(){
 	//search module
-	var module = angular.module('SearchModule',
+	const module = angular.module('SearchModule',
 	 ['ngMaterial','ngMessages','ui.bootstrap','slickCarousel','ngRoute','ui.calendar','cancelable-q','ngCookies','nya.bootstrap.select']);
 	
-	//var chitietModule = angular.module('ChitietModule', ['ngMaterial','ngMessages','slickCarousel','ngRoute']);
+	//const chitietModule = angular.module('ChitietModule', ['ngMaterial','ngMessages','slickCarousel','ngRoute']);
 	module.config(function($mdThemingProvider, $locationProvider){
 		$mdThemingProvider.theme('default')
 			.primaryPalette('green');
@@ -14,14 +14,14 @@
         });
 	});
 	module.factory('doitacFactory', function($http, $q){
-		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		const service = {};
+		const api_url = 'http://localhost:4444/api';
 		service.layDoiTac = function(){
-			var deferred = $q.defer();
+			const deferred = $q.defer();
 			$http.get(api_url+'/doitac', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -29,38 +29,38 @@
 		return service;
 	})
 	module.factory('ngvFactory', function($http, $q){
-		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		const service = {};
+		const api_url = 'http://localhost:4444/api';
 		service.layDanhSachNgvAll = function(){
-			var deferred = $q.defer();
+			const deferred = $q.defer();
 			$http.get(api_url+'/nguoigiupviec?sort=hoten', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
 		}
 		service.layDanhSachNgv = function(ngay, giobd, giokt, chuoiquan){
-			var deferred = $q.defer();
-			var x = '';
-			var q_ngv_trunglich = '?sort=hoten&ngaylam=' + ngay +
+			const deferred = $q.defer();
+			const x = '';
+			const q_ngv_trunglich = '?sort=hoten&ngaylam=' + ngay +
 				'&giobatdau__lte=' + giokt +
 				'&gioketthuc__gte=' + giobd;
-			var q_ngv_ban = '?ngay=' + ngay +
+			const q_ngv_ban = '?ngay=' + ngay +
 				'&giobd__lte=' + giokt +
 				'&giokt__gte=' + giobd;
 			$http.get(api_url+'/lichlamviec'+q_ngv_trunglich, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	x = '?cmnd__nin=';
-		        	var flag = false;
+		        	const flag = false;
 		            for(i=0; i<data.length; i++){
 		            	flag = true;
 		            	x += data[i].nguoigiupviec;
 		            	if(i != data.length-1) x += ',';
 		            }
 		            $http.get(api_url+'/ngvban'+q_ngv_ban, { cache: false})
-				        .success(function(data) {
+				        .then(function(data) {
 				        	for(i=0; i<data.length; i++){
 				        		if(flag == true) x += ',';
 				            	x += data[i].cmnd;
@@ -69,42 +69,42 @@
 				            x += '&diachi.quan__in=' + chuoiquan;
 				            x += '&sort=-sonamkinhnghiem';
 				        	$http.get(api_url+'/nguoigiupviec'+x, { cache: false})
-						        .success(function(data) {
+						        .then(function(data) {
 						        	deferred.resolve(data);
 						        })
-						        .error(function(data) {
+						        .catch(function(data) {
 						            console.log('Error: ' + data);
 				    			});
 				        })
-				        .error(function(data) {
+				        .catch(function(data) {
 				            console.log('Error: ' + data);
 		    			});
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.layDanhSachNgvDaiHan = function(ngay, giobd, giokt, chuoiquan, dichvu){
-			var deferred = $q.defer();
-			var x = '';
-			var q_ngv_trunglich = '?sort=hoten&ngaylam=' + ngay +
+			const deferred = $q.defer();
+			const x = '';
+			const q_ngv_trunglich = '?sort=hoten&ngaylam=' + ngay +
 				'&giobatdau__lte=' + giokt +
 				'&gioketthuc__gte=' + giobd;
-			var q_ngv_ban = '?ngay=' + ngay +
+			const q_ngv_ban = '?ngay=' + ngay +
 				'&giobd__lte=' + giokt +
 				'&giokt__gte=' + giobd;
 			$http.get(api_url+'/lichlamviec'+q_ngv_trunglich, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	x = '?cmnd__nin=';
-		        	var flag = false;
+		        	const flag = false;
 		            for(i=0; i<data.length; i++){
 		            	flag = true;
 		            	x += data[i].nguoigiupviec;
 		            	if(i != data.length-1) x += ',';
 		            }
 		            $http.get(api_url+'/ngvban'+q_ngv_ban, { cache: false})
-				        .success(function(data) {
+				        .then(function(data) {
 				        	for(i=0; i<data.length; i++){
 				        		if(flag==true) x += ',';
 				            	x += data[i].cmnd;
@@ -118,61 +118,61 @@
 				        	}
 				        	x += '&sort=-sonamkinhnghiem';
 				            $http.get(api_url+'/nguoigiupviec'+x, { cache: false})
-						        .success(function(data) {
+						        .then(function(data) {
 						        	deferred.resolve(data);
 						        })
-						        .error(function(data) {
+						        .catch(function(data) {
 						            console.log('Error: ' + data);
 				    			});
 				        })
-				        .error(function(data) {
+				        .catch(function(data) {
 				            console.log('Error: ' + data);
 		    			});
 		            
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.layNgvTheoCmnd = function(cmnd){
-	    	var deferred = $q.defer();
-			var q = '?cmnd=' + cmnd;
+	    	const deferred = $q.defer();
+			const q = '?cmnd=' + cmnd;
 			$http.get(api_url+'/nguoigiupviec'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.layNgvTheoId = function(id){
-	    	var deferred = $q.defer();
-			var q = '?_id=' + id;
+	    	const deferred = $q.defer();
+			const q = '?_id=' + id;
 			$http.get(api_url+'/nguoigiupviec'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.layDanhSachNgvSub = function(id){
-	    	var deferred = $q.defer();
-			var q = '?_id__nin=' + id;
+	    	const deferred = $q.defer();
+			const q = '?_id__nin=' + id;
 			$http.get(api_url+'/nguoigiupviec'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.ngv_isSelected = function(ngv, ngv_selected_arr){
-	    	var index = -1;
+	    	const index = -1;
 	    	for(i=0; i<ngv_selected_arr.length; i++)
 	    		if(ngv.cmnd == ngv_selected_arr[i].cmnd)
 	    			index = i;
@@ -184,7 +184,7 @@
         	}
 	    }
 	    service.isSelected = function(ngv, btn, ngv_selected_arr){
-	    	var index = -1;
+	    	const index = -1;
 	    	for(i=0; i<ngv_selected_arr.length; i++)
 	    		if(ngv.cmnd == ngv_selected_arr[i].cmnd)
 	    			index = i;
@@ -202,7 +202,7 @@
         	}
 	    }
 	    service.chon_ngv = function(ngv, ngv_selected_arr){
-    		var index = -1;
+    		const index = -1;
 	    	for(i=0; i<ngv_selected_arr.length; i++)
 	    		if(ngv.cmnd == ngv_selected_arr[i].cmnd)
 	    			index = i;
@@ -216,30 +216,30 @@
         	}
         }
         service.kiemtraLlv = function(id, ngay, giobd, giokt){
-			var deferred = $q.defer();
-			var q_ngv_trunglich = '?ngaylam=' + ngay +
+			const deferred = $q.defer();
+			const q_ngv_trunglich = '?ngaylam=' + ngay +
 				'&giobatdau__lte=' + giokt +
 				'&gioketthuc__gte=' + giobd +
 				'&nguoigiupviec=' + id;
 			$http.get(api_url+'/lichlamviec'+q_ngv_trunglich, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.kiemtraLichBan = function(id, ngay, giobd, giokt){
-			var deferred = $q.defer();
-			var q_ngv_ban = '?ngay=' + ngay +
+			const deferred = $q.defer();
+			const q_ngv_ban = '?ngay=' + ngay +
 				'&giobd__lte=' + giokt +
 				'&giokt__gte=' + giobd + '&cmnd=' + id;
         	$http.get(api_url+'/ngvban'+q_ngv_ban, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
@@ -247,9 +247,9 @@
 	    return service;
 	});
 	module.factory('filterFactory', function($location, $mdDialog, $q, $http){
-		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
-		var _kinhnghiems = [
+		const service = {};
+		const api_url = 'http://localhost:4444/api';
+		const _kinhnghiems = [
 	    	{
 	    		ten: 'Tất cả',
 				id: 0
@@ -275,7 +275,7 @@
 				id: 5
 			}
 		];
-		var _tieuchis = [
+		const _tieuchis = [
 			{
 				ten: 'Chăm sóc bé',
 				id: 1,
@@ -317,7 +317,7 @@
 				data: false
 			}
 		];
-		var _locdaihan = [
+		const _locdaihan = [
 			{
 	    		ten: 'Hàng ngày',
 				id: 0
@@ -339,7 +339,7 @@
 				id: 4
 			}
 		];
-		var _quans = [
+		const _quans = [
 			{
 				ten: 'Quận 1',
 				id: 1
@@ -417,7 +417,7 @@
 				id: 2
 			}
 		];
-		var _data = {
+		const _data = {
 			mang_tieuchi: [],
 			isReverse: false,
 			isReverse2: false,
@@ -497,29 +497,35 @@
 	    service.getDSKinhNghiem = function(){
 	    	return _kinhnghiems;
 	    }
+
+		console.log('get tieu chi');
+
+
 	    service.getDSTieuChi = function(){
-	    	var deferred = $q.defer();
+	    	const deferred = $q.defer();
 			$http.get(api_url+'/tieuchi', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
+					console.log(data);
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 	    service.getDSQuan = function(){
-	    	var deferred = $q.defer();
+	    	const deferred = $q.defer();
 			$http.get(api_url+'/quan?sort=tenquan', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
+					console.log(data);
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
-	    var kiemtraDsKhuVuc = function(dsKhuVuc, tenKhuVuc){
+	    const kiemtraDsKhuVuc = function(dsKhuVuc, tenKhuVuc){
 	    	if(dsKhuVuc.length == 0) return -1;
 	    	for(j=0; j<dsKhuVuc.length; j++){
 	    		if(dsKhuVuc[j].tenkv == tenKhuVuc)
@@ -543,9 +549,9 @@
 	    	return '';
 	    }
 	    service.taoDanhSachKhuVuc = function(dsQuan){
-	    	var dsKhuVuc = [];
+	    	const dsKhuVuc = [];
 	    	for(i=0; i<dsQuan.length; i++){
-	    		var vitri = kiemtraDsKhuVuc(dsKhuVuc, dsQuan[i].khuvuc);
+	    		const vitri = kiemtraDsKhuVuc(dsKhuVuc, dsQuan[i].khuvuc);
 	    		if(dsKhuVuc.length == 0 || (vitri == -1)){
 	    			dsKhuVuc.push({
 	    				tenkv: dsQuan[i].khuvuc,
@@ -566,30 +572,30 @@
 	    }
 	    //-------đổi ngày sinh sang tuổi---------
 	    service.tinhTuoiNgv = function(ngaysinhstr){
-	    	var ngaysinh = new Date(Date.parse(ngaysinhstr));
-	    	var ageDifMs = Date.now() - ngaysinh.getTime();
-			var ageDate = new Date(ageDifMs);
+	    	const ngaysinh = new Date(Date.parse(ngaysinhstr));
+	    	const ageDifMs = Date.now() - ngaysinh.getTime();
+			const ageDate = new Date(ageDifMs);
 			return Math.abs(ageDate.getUTCFullYear() - 1970);
 	    }
 	    //-------đổi dd/mm/yyyy sang mm/dd/yyyy-----------
 	    service.doiNgaySearch = function(ngay){
-	    	var ngayarr = ngay.split('/');
-	    	var ngay_converted = ngayarr[2] + '-' + ngayarr[1] + '-' + ngayarr[0];
+	    	const ngayarr = ngay.split('/');
+	    	const ngay_converted = ngayarr[2] + '-' + ngayarr[1] + '-' + ngayarr[0];
 	    	return ngay_converted;
 	    }
 	    //-------lấy dịch vụ từ index---------------------
 	    service.getDichVu = function(indexDV, tieuchis){
-	    	var arr = [];
-	    	var indexDVarr = JSON.parse(indexDV);
-	    	if(indexDVarr.length == 0){
+	    	const arr = [];
+	    	const indexDconstr = JSON.parse(indexDV);
+	    	if(indexDconstr.length == 0){
 				for(j=0; j<tieuchis.length; j++){
 						arr.push(tieuchis[j].ten);
 						tieuchis[j].data = true;
 				}
 	    	}else{
-	    		for(i=0;i<indexDVarr.length;i++){
+	    		for(i=0;i<indexDconstr.length;i++){
 					for(j=0; j<tieuchis.length; j++){
-						if(indexDVarr[i] == tieuchis[j].ten){
+						if(indexDconstr[i] == tieuchis[j].ten){
 							arr.push(tieuchis[j].ten);
 							tieuchis[j].data = true;
 						}
@@ -602,8 +608,9 @@
 		}
 		
 		service.them_filter_dichvu = function(ten_dv, isSelect, data){
+			console.log(data);
 	    	if(isSelect){
-	    		var index = data.mang_tieuchi.indexOf(ten_dv);
+	    		const index = data.mang_tieuchi.indexOf(ten_dv);
 				if (index !== -1) {
 				    data.mang_tieuchi.splice(index, 1);
 				}
@@ -613,8 +620,9 @@
 	    	}
 	    }
 	    service.filter_dichvu = function(sotruongs, data){
+			console.log(data);
 	    	for(i=0; i<sotruongs.length; i++){
-	    		var index = data.mang_tieuchi.indexOf(sotruongs[i]);
+	    		const index = data.mang_tieuchi.indexOf(sotruongs[i]);
 				if (index !== -1) {
 				    return true;
 				}
@@ -622,11 +630,13 @@
 	    	return false;
 	    }
 	    service.filter_kinhnghiem = function(sonamkn, data){
+			console.log(data);
 	    	if(sonamkn >= data.sonamkn)
 	    		return true
 	    	else return false;
 	    }
 	    service.filter_quan = function(quan, data){
+			console.log(data);
 	    	if(quan == data.quan)
 	    		return true
 	    	else return false;
@@ -634,24 +644,24 @@
 	    return service;
 	});
 	module.factory('thanhtoanFactory', function($http, $q){
-		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		const service = {};
+		const api_url = 'http://localhost:4444/api';
 		//lưu khách hàng
 		service.timKhachHang = function(sdt){
-			var deferred = $q.defer();
-			var q = '?sdt=' + sdt;
+			const deferred = $q.defer();
+			const q = '?sdt=' + sdt;
 			$http.get(api_url+'/khachhang'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 	    }
 		service.luuKhachHang = function(khachhang){
-			var deferred = $q.defer();
-			var new_khachhang = JSON.stringify({
+			const deferred = $q.defer();
+			const new_khachhang = JSON.stringify({
 			    hoten: khachhang.hoten,
 			    sdt: khachhang.sdt,
 			    matkhau: "kocomatkhau",
@@ -662,32 +672,32 @@
 	            method: "POST",
 	            data: new_khachhang,
 	            headers: {'Content-Type': 'application/json'}
-	        }).success(function (data, status, headers, config) {
+	        }).then(function (data, status, headers, config) {
 	        		deferred.resolve(data);
-	            }).error(function (data, status, headers, config) {
+	            }).catch(function (data, status, headers, config) {
 	                console.log('Error: ' + data);
 	            });
 	        return deferred.promise;
 		}
         
 		service.LayLichLvKhiLuu = function(ngay, giobd, giokt, cmnd){
-			var deferred = $q.defer();
-			var q_ngv_trunglich = '?ngaylam=' + ngay +
+			const deferred = $q.defer();
+			const q_ngv_trunglich = '?ngaylam=' + ngay +
 				'&giobatdau__lte=' + giokt +
 				'&gioketthuc__gte=' + giobd +
 				'&cmnd=' + cmnd;
 			$http.get(api_url+'/lichlamviec'+q_ngv_trunglich, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 	        return deferred.promise;
 		}
 		service.tinhSoGioNgoaiGioCtyc = function(giobd1, giokt1){
-	    	var tgngoaigio_sang = 0;
-	    	var tgngoaigio_toi = 0;
+	    	const tgngoaigio_sang = 0;
+	    	const tgngoaigio_toi = 0;
 	    	if(giobd1 < 480)
 	    		tgngoaigio_sang = 480 - giobd1;
 	    	if(giokt1 > 1080)
@@ -695,8 +705,8 @@
 	    	return ((tgngoaigio_toi+tgngoaigio_sang)/60);
 	    }
 		service.tinhSoGioNgoaiGioYc = function(giobd1, giokt1, SoNgv){
-	    	var tgngoaigio_sang = 0;
-	    	var tgngoaigio_toi = 0;
+	    	const tgngoaigio_sang = 0;
+	    	const tgngoaigio_toi = 0;
 	    	if(giobd1 < 480)
 	    		tgngoaigio_sang = 480 - giobd1;
 	    	if(giokt1 > 1080)
@@ -710,11 +720,11 @@
 	    	return (phicobanlonnhat*SoGio*phingoaigiolonnhat)/100;
 	    }
 	    service.tinhGiaChuanCtyc = function(GioBd, GioKt, phicobanlonnhat){
-	    	var SoGio = (GioKt - GioBd)/60;
+	    	const SoGio = (GioKt - GioBd)/60;
 	    	return phicobanlonnhat*SoGio;
 	    }
 	    service.tinhGiaChuanYc = function(GioBd, GioKt, phicobanlonnhat, SoNgv){
-	    	var SoGio = (GioKt - GioBd)/60;
+	    	const SoGio = (GioKt - GioBd)/60;
 	    	return phicobanlonnhat*SoGio*SoNgv;
 	    }
 	    service.tinhChiPhiTongCtyc = function(PhiNgoaiGio, PhiChuan){
@@ -724,9 +734,9 @@
 	    	return SoNgv*TongPhiCtyc;
 	    }
 	    service.doiChuoiTienTe = function(SoTien){
-	    	var giatien_str = '';
-	    	var giatien_arr = SoTien.toString().split('');
-	    	var dem = 1;
+	    	const giatien_str = '';
+	    	const giatien_arr = SoTien.toString().split('');
+	    	const dem = 1;
 	    	for(i=giatien_arr.length-1; i>=0; i--){
 	    		giatien_str += giatien_arr[i];
 	    		if(dem%3==0 && i!=0) giatien_str += '.';
@@ -735,7 +745,7 @@
 	    	return giatien_str.split('').reverse().join('');
 	    }
 		service.getPhiCoBanLonNhat = function(mangtieuchi){
-	    	var max = 0;
+	    	const max = 0;
 			for(i=0; i<mangtieuchi.length; i++){
 	    		if(mangtieuchi[i].data == true){
 	    			if(max < mangtieuchi[i].giachuan)
@@ -745,7 +755,7 @@
 	    	return max;
 	    }
 		service.getPhiNgoaiGioLonNhat = function(mangtieuchi){
-	    	var max = 0;
+	    	const max = 0;
 			for(i=0; i<mangtieuchi.length; i++){
 	    		if(mangtieuchi[i].data == true){
 	    			if(max < mangtieuchi[i].phingoaigiokh)
@@ -755,7 +765,7 @@
 	    	return max;
 	    }
 	    service.getPhiNgoaiGioLonNhatNgv = function(mangtieuchi){
-	    	var max = 0;
+	    	const max = 0;
 			for(i=0; i<mangtieuchi.length; i++){
 	    		if(mangtieuchi[i].data == true){
 	    			if(max < mangtieuchi[i].phingoaigiongv)
@@ -766,7 +776,7 @@
 	    }
 	    /*
 		service.getPhuPhi1LonNhat = function(mangtieuchi){
-			var max = 0;
+			const max = 0;
 			for(i=0; i<mangtieuchi.length; i++){
 	    		if(mangtieuchi[i].data == true){
 	    			if(max < mangtieuchi[i].phuphi1)
@@ -787,9 +797,9 @@
 		return service;
 	});
 	module.factory('khachhangFactory', function($http, $q){
-		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
-		var _khachhang = {
+		const service = {};
+		const api_url = 'http://localhost:4444/api';
+		const _khachhang = {
 			hoten: null,
 			sdt: null,
 			diachi: null
@@ -803,8 +813,8 @@
 			_khachhang.diachi = khachhang.diachi;
 		}
 		service.suaThongTinTK = function(id, hoten, diachi){
-			var deferred = $q.defer();
-			var kh = JSON.stringify({
+			const deferred = $q.defer();
+			const kh = JSON.stringify({
 			    hoten: hoten,
 			    diachi: diachi
 		 	});
@@ -812,80 +822,80 @@
 	            method: "PUT",
 	            data: kh,
 	            headers: {'Content-Type': 'application/json;charset=UTF-8'}
-	        }).success(function (data, status, headers, config) {
+	        }).then(function (data, status, headers, config) {
 	        		deferred.resolve(data);
-	            }).error(function (data, status, headers, config) {
+	            }).catch(function (data, status, headers, config) {
 	                console.log('Error: ' + data);
 	            });
 	        return deferred.promise;
 		}
 		service.layDiaChiGoogleMapApi = function(lat, lng){
-			var deferred = $q.defer();
-			var toado = {
+			const deferred = $q.defer();
+			const toado = {
 				lat: lat,
 				lng: lng
 			}
 			$http.post('/layDiaChiGoogleApi', toado)
-		        .success(function(data) {
+		        .then(function(data) {
 	        		deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
 		}
 		service.layMaXacNhan = function(sdtkhachhang){
 			
-			var deferred = $q.defer();
-			var tinnhan = {
+			const deferred = $q.defer();
+			const tinnhan = {
 				sdt: sdtkhachhang
 			}
 			$http.post('/layTinNhanXacNhan', tinnhan)
-		        .success(function(data) {
+		        .then(function(data) {
 	        		deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 			return;
 		}
 		service.getYeuCauNh = function(sdt){
-			var deferred = $q.defer();
-			var q = '?sdtkhachhang=0' + sdt + '&loaiyeucau=Ngắn hạn';
+			const deferred = $q.defer();
+			const q = '?sdtkhachhang=0' + sdt + '&loaiyeucau=Ngắn hạn';
 			$http.get(api_url+'/yeucau'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 		}
 		service.getYeuCauDh = function(sdt){
-			var deferred = $q.defer();
-			var q = '?sdtkhachhang=0' + sdt + '&loaiyeucau=Dài hạn';
+			const deferred = $q.defer();
+			const q = '?sdtkhachhang=0' + sdt + '&loaiyeucau=Dài hạn';
 			$http.get(api_url+'/yeucau'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 		}
 		service.getChiTietYeuCau = function(id){
-			var deferred = $q.defer();
-			var q = '?idyeucau=' + id;
+			const deferred = $q.defer();
+			const q = '?idyeucau=' + id;
 			$http.get(api_url+'/chitietyeucau'+q, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 		    return deferred.promise;
 		}
 		service.luuNhanXet = function(ctyc, nhanxet, hudo, matdo){
-			var _hudo = 'Không';
-			var _matdo = 'Không';
+			const _hudo = 'Không';
+			const _matdo = 'Không';
 			if(hudo == true) _hudo = 'Có';
 			if(matdo == true) _matdo = 'Có';
 			var deferred = $q.defer();
@@ -905,55 +915,55 @@
 	            method: "PUT",
 	            data: nhanxet,
 	            headers: {'Content-Type': 'application/json;charset=UTF-8'}
-	        }).success(function (data, status, headers, config) {
+	        }).then(function (data, status, headers, config) {
 	        		deferred.resolve(data);
-	            }).error(function (data, status, headers, config) {
+	            }).catch(function (data, status, headers, config) {
 	                console.log('Error: ' + data);
 	            });
 	        return deferred.promise;
 		}
 		service.hoanthanhYeuCau = function(id){
-			var deferred = $q.defer();
-			var yc = JSON.stringify({
+			const deferred = $q.defer();
+			const yc = JSON.stringify({
 			    trangthai: 'Đã hoàn thành'
 		 	});
 			$http({url: api_url+'/yeucau/'+id,
 	            method: "PUT",
 	            data: yc,
 	            headers: {'Content-Type': 'application/json;charset=UTF-8'}
-	        }).success(function (data, status, headers, config) {
+	        }).then(function (data, status, headers, config) {
 	        		deferred.resolve(data);
-	            }).error(function (data, status, headers, config) {
+	            }).catch(function (data, status, headers, config) {
 	                console.log('Error: ' + data);
 	            });
 	        return deferred.promise;
 		}
 		service.tienhanhYeuCau = function(id){
-			var deferred = $q.defer();
-			var yc = JSON.stringify({
+			const deferred = $q.defer();
+			const yc = JSON.stringify({
 			    trangthai: 'Đang tiến hành'
 		 	});
 			$http({url: api_url+'/yeucau/'+id,
 	            method: "PUT",
 	            data: yc,
 	            headers: {'Content-Type': 'application/json;charset=UTF-8'}
-	        }).success(function (data, status, headers, config) {
+	        }).then(function (data, status, headers, config) {
 	        		deferred.resolve(data);
-	            }).error(function (data, status, headers, config) {
+	            }).catch(function (data, status, headers, config) {
 	                console.log('Error: ' + data);
 	            });
 	        return deferred.promise;
 		}
 		service.xacthucThongTin = function(sdtkhachhang, maxacnhan){
-			var deferred = $q.defer();
-			var thongtinkh = {
+			const deferred = $q.defer();
+			const thongtinkh = {
 				sdt: sdtkhachhang,
 				maxacnhan: maxacnhan
 			}
 			$http.post('/xacthuc', thongtinkh)
-		        .success(function(data) {
+		        .then(function(data) {
 	        		deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -1026,7 +1036,7 @@
 		$scope.data = filterFactory.getDuLieuPage();
 		$scope.tieuchis = [];
 		$scope.initDataFirstTime = function(){
-			var q1 = filterFactory.getDSQuan().then(function(data){
+			const q1 = filterFactory.getDSQuan().then(function(data){
 				$scope.khuvuc = filterFactory.taoDanhSachKhuVuc(data);
 				for(i=0; i<data.length; i++){
 					$scope.quans.push({
@@ -1036,7 +1046,7 @@
 					});
 				}
 			})
-			var q2 = filterFactory.getDSTieuChi().then(function(data){
+			const q2 = filterFactory.getDSTieuChi().then(function(data){
 				for(i=0; i<data.length; i++){
 					$scope.tieuchis.push({
 						ten: data[i].tentieuchi,
@@ -1069,11 +1079,11 @@
 	    //-------------end du lieu------------------------------------
 	    //--------------khởi tạo dữ liệu từ index------------------
 	    $scope.initData = function(){
-			var bd1 = Number($scope.data.giobd1);
-            var kt1 = Number($scope.data.giokt1);
-	    	var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
-            var ngayarr = $scope.data.ngay.split('/');
+			const bd1 = Number($scope.data.giobd1);
+            const kt1 = Number($scope.data.giokt1);
+	    	const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const ngayarr = $scope.data.ngay.split('/');
             if(ngayarr[0] == now.getDate() 
                 && ngayarr[1] == now.getMonth()+1 
                 && ngayarr[2] == now.getFullYear()){
@@ -1096,7 +1106,7 @@
 		  	$scope.ngv_selected_arr = [];
 	    	$scope.loading = true;
 	    	$scope.ngvs = null;
-	    	var chuoiquan = filterFactory.layTenKhuVuc($scope.data.quan, $scope.quans, $scope.khuvuc);
+	    	const chuoiquan = filterFactory.layTenKhuVuc($scope.data.quan, $scope.quans, $scope.khuvuc);
 			ngvFactory.layDanhSachNgv($scope.doi_ngaysearch($scope.data.ngay), 
 									 $scope.data.giobd1,
 									 $scope.data.giokt1,
@@ -1135,7 +1145,7 @@
 		$scope.layDiaChi = function(){
 			if(navigator.geolocation) {
 			    navigator.geolocation.getCurrentPosition(function(position) {
-					var pos = {
+					const pos = {
 						lat: position.coords.latitude,
 						lng: position.coords.longitude
 					};
@@ -1160,10 +1170,10 @@
 		}
 		//--------------end watch-----------------------
 	    
-	    var getNgvPhuHop = function(ngvs, quan){
+	    const getNgvPhuHop = function(ngvs, quan){
 	    	if(ngvs ==  null) return;
 	    	for(i=0; i<ngvs.length; i++){
-	    		var in_arr = false;
+	    		const in_arr = false;
 		   		for(j=0; j<$scope.ngv_arr_fit.length; j++){
 		   			if(ngvs[i].cmnd == $scope.ngv_arr_fit[j].cmnd)
 		   				in_arr = true;
@@ -1172,7 +1182,7 @@
 	    	}
 	    }
 	    $scope.filtering = function(ngv){
-	    	var index = -1;
+	    	const index = -1;
 	    	for(i=0; i<$scope.ngv_selected_arr.length; i++)
 	    		if(ngv.cmnd == $scope.ngv_selected_arr[i].cmnd)
 	    			index = i;
@@ -1184,7 +1194,7 @@
 	    	}
 	    	else return false;
 	    }
-	    var kiemtraDSDcChon = function(){
+	    const kiemtraDSDcChon = function(){
 	    	for(j=0; j<$scope.ngv_selected_arr.length; j++){
 	    		
 	    		if(!($scope.filter_dichvu($scope.ngv_selected_arr[j].sotruong, $scope.data))){
@@ -1208,7 +1218,7 @@
 		$scope.chon_ngv_detail = function(ngv){
 			$scope.isSearch = true;
 			$scope.isDetail = false;
-			var index = -1;
+			const index = -1;
 	    	for(i=0; i<$scope.ngv_selected_arr.length; i++)
 	    		if(ngv.cmnd == $scope.ngv_selected_arr[i].cmnd)
 	    			index = i;
@@ -1227,7 +1237,7 @@
 			$scope.ngv_show_detail = ngv.cmnd;
 			$scope.isSearch = false;
 			$scope.isDetail = true;
-			var arr = $scope.ngv_arr_fit.slice();
+			const arr = $scope.ngv_arr_fit.slice();
 			for(i=0; i<arr.length; i++){
 				if(arr[i].cmnd == ngv.cmnd)
 					arr.splice(i, 1);
@@ -1243,9 +1253,9 @@
 				return;
 			}
 			if(arr.length > 2){
-				var min = 0;
-				var max = arr.length-1;
-				var random = [];
+				const min = 0;
+				const max = arr.length-1;
+				const random = [];
 				// and the formula is:
 				var random1 = Math.floor(Math.random() * (max - min + 1)) + min;
 				var random2; 
@@ -1267,13 +1277,13 @@
 		$scope.check_subngv = function(){
 			return true;
 		}
-		var reloadDataSauHoaDon = function(){
+		const reloadDataSauHoaDon = function(){
             $scope.hoanthanh_thanhtoan_nh = true;
             $scope.loading_yeucau = false;
 		}
 	    $scope.hoanthanh_thanhtoan = function(i){
 	    	if(i==1){
-	    		var expireDate = new Date();
+	    		const expireDate = new Date();
 				expireDate.setDate(expireDate.getDate() + 1);
 				$cookies.remove('khachhang');
 				$cookies.put('khachhang', $scope.khachhang.sdt, {'expires': expireDate});
@@ -1285,8 +1295,8 @@
 	    }
 		//-------------end Xu ly detail ngv--------------------------------
 	    //---------------------luu yeu cau---------------------------------
-	    var layDanhSachDichVu = function(){
-	    	var result = [];
+	    const layDanhSachDichVu = function(){
+	    	const result = [];
 	    	for(i=0; i<$scope.tieuchis.length; i++){
 	    		if($scope.tieuchis[i].data == true)
 	    			result.push($scope.tieuchis[i].ten);
@@ -1316,13 +1326,13 @@
 		}
 
 	    $scope.promises = [];
-	    var luu_yeucau_b2 = function(){
+	    const luu_yeucau_b2 = function(){
 	    	$scope.loading_yeucau = true;
-	    	var q_ngv_trunglich = '?ngaylam=' + $scope.doi_ngaysearch($scope.data.ngay) +
+	    	const q_ngv_trunglich = '?ngaylam=' + $scope.doi_ngaysearch($scope.data.ngay) +
 				'&giobatdau__lte=' + $scope.data.giokt1 +
 				'&gioketthuc__gte=' + $scope.data.giobd1;
-			$http.get('http://procleaner.vn:4444/api/lichlamviec'+q_ngv_trunglich, { cache: false})
-		        .success(function(data) {
+			$http.get('http://localhost:4444/api/lichlamviec'+q_ngv_trunglich, { cache: false})
+		        .then(function(data) {
 		        	if(data.length > 0){
 			            for(i=0; i<data.length; i++){
 			            	for(j=0; j<$scope.ngv_selected_arr.length; j++){
@@ -1341,28 +1351,28 @@
 			        		}
 			            }
 		        	}
-		            $http.get('http://procleaner.vn:4444/api/khachhang?sdt='+$scope.khachhang.sdt, { cache: false})
-				        .success(function(data) {
-				        	var trangthaiyc = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
-				        	var mangdichvu = layDanhSachDichVu();
+		            $http.get('http://localhost:4444/api/khachhang?sdt='+$scope.khachhang.sdt, { cache: false})
+				        .then(function(data) {
+				        	const trangthaiyc = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
+				        	const mangdichvu = layDanhSachDichVu();
 
-				        	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    					var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
-	    					var phingoaigiolonnhatNgv = thanhtoanFactory.getPhiNgoaiGioLonNhatNgv($scope.tieuchis);
+				        	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    					const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    					const phingoaigiolonnhatNgv = thanhtoanFactory.getPhiNgoaiGioLonNhatNgv($scope.tieuchis);
 
-	    					var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    					const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
 				        															 $scope.data.giokt1);
-				        	var chiphingoaigioCtyc = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+				        	const chiphingoaigioCtyc = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
 				        															phingoaigiolonnhat,
 				        															phicobanlonnhat);
-				        	var sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
+				        	const sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
 				        															 $scope.data.giokt1,
 				        															 $scope.ngv_selected_arr.length);
-				        	var chiphingoaigioYc = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
+				        	const chiphingoaigioYc = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
 				        															phingoaigiolonnhat,
 				        															phicobanlonnhat);
 
-				        	var dulieu_luuyeucau = {
+				        	const dulieu_luuyeucau = {
 					        		trangthaiyc: trangthaiyc,
 					        		mangdichvu: mangdichvu,
 					        		ngay: $scope.data.ngay,
@@ -1385,32 +1395,32 @@
 					        	};
 				        	if(data.length>0){
 					        	$http.post('/luuyeucau_nh', dulieu_luuyeucau)
-							        .success(function(data) {
+							        .then(function(data) {
 							        	if(data = 'done')
 							        		reloadDataSauHoaDon();
-							        }).error(function(data) {
+							        }).catch(function(data) {
 							            console.log('Error: ' + data);
 					        		});
 				        	}else{
 				        		//lưu khách hàng
 					            thanhtoanFactory.luuKhachHang($scope.khachhang);	
 					        	$http.post('/luuyeucau_nh', dulieu_luuyeucau)
-							        .success(function(data) {
+							        .then(function(data) {
 							        	if(data = 'done')
 							        		reloadDataSauHoaDon();
-							        }).error(function(data) {
+							        }).catch(function(data) {
 							            console.log('Error: ' + data);
 					        		});
 				        	}
 				        })
-				        .error(function(data) {
+				        .catch(function(data) {
 				            console.log('Error: ' + data);
 		    			});
 
 		            
 		            
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
         	});
 	    }
@@ -1437,47 +1447,47 @@
 	    //---------------------end-----------------------------------------
 	    //----------------------tính tiền----------------------------------
 	    $scope.tinhtien_nh = function(){
-	    	var sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
+	    	const sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
         															   $scope.data.giokt1,
         															   $scope.ngv_selected_arr.length); 
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-			var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+			const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanYc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanYc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat,
 	        		 									    $scope.ngv_selected_arr.length)
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
     															phingoaigiolonnhat,
     															phicobanlonnhat,
     															$scope.ngv_selected_arr.length);
 	    	return thanhtoanFactory.doiChuoiTienTe(phichuan + phingoaigio);
 	    }
 	    $scope.showTrangThaiYc = function(){
-	    	var tt = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
+	    	const tt = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
 	    	if(tt == 'Chưa tiến hành')
 	    		return 'Không có phụ phí';
 	    	else return 'Có phụ phí';
 	    }
 	    $scope.showPhiNgoaiGio = function(){
-	    	var sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
+	    	const sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
         															   $scope.data.giokt1,
         															   $scope.ngv_selected_arr.length); 
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
     															phingoaigiolonnhat,
     															phicobanlonnhat,
     															$scope.ngv_selected_arr.length);
 	    	return thanhtoanFactory.doiChuoiTienTe(phingoaigio);
 	    }
 	    $scope.showPhiCoBan = function(){
-	    	var sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
+	    	const sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
         															   $scope.data.giokt1,
         															   $scope.ngv_selected_arr.length); 
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-			var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanYc($scope.data.giobd1,
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+			const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanYc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat,
 	        		 									    $scope.ngv_selected_arr.length)
@@ -1676,7 +1686,7 @@
 	    	}
     	}
     	$scope.chonNgvSideNav = function(){
-    		var soluong = 0;
+    		const soluong = 0;
     		for(i=0; i<$scope.data.lichdaihan.length; i++){
         		if($scope.data.lichdaihan[i].ngay.getTime() == $scope.detailData.ngaythuchien.getTime()){
         			for(j=0; j<$scope.data.lichdaihan[i].dsNgvPhuHop.length; j++){
@@ -1720,7 +1730,7 @@
 	      }
 	    }
 	    function parseDate(str) {
-		    var mdy = str.split('/')
+		    const mdy = str.split('/')
 		    return new Date(mdy[2], mdy[1]-1, mdy[0]);
 		}
 
@@ -1731,9 +1741,9 @@
 	    $scope.backToCalendar = function(){
 	    	$scope.isDetail = false;
 	    }
-	    var getAvoidDay = function(initOption, ngaybatdau){
-	    	var days = ['cn','t2','t3','t4','t5','t6','t7'];
-	    	var hangtuan = ['cn','t2','t3','t4','t5','t6','t7'];
+	    const getAvoidDay = function(initOption, ngaybatdau){
+	    	const days = ['cn','t2','t3','t4','t5','t6','t7'];
+	    	const hangtuan = ['cn','t2','t3','t4','t5','t6','t7'];
 	    	hangtuan.splice(ngaybatdau.getDay(), 1);
 			switch(Number(initOption)) {
 			    case 0:
@@ -1758,35 +1768,35 @@
 			}
 	    }
 	    $scope.promises = [];
-		var initData = function(initOption, dichvu){
+		const initData = function(initOption, dichvu){
 			$scope.loading = true;
-			var days = ['cn','t2','t3','t4','t5','t6','t7'];
+			const days = ['cn','t2','t3','t4','t5','t6','t7'];
 			$scope.events.splice(0,$scope.events.length);
 			$scope.data.lichdaihan.splice(0,$scope.data.lichdaihan.length);
-			var dayrange = daydiff(parseDate($scope.data.ngaybd),
+			const dayrange = daydiff(parseDate($scope.data.ngaybd),
 								   parseDate($scope.data.ngaykt));
-			var ngaythuchien_arr = [];
-			var chuoiquan = filterFactory.layTenKhuVuc($scope.data.quan, $scope.quans, $scope.khuvuc);
+			const ngaythuchien_arr = [];
+			const chuoiquan = filterFactory.layTenKhuVuc($scope.data.quan, $scope.quans, $scope.khuvuc);
 			
 			for(i=0; i<=dayrange; i++){
-				var ngaybatdau_arr = $scope.data.ngaybd.split('/');
-				var ngaythuchien = new Date(ngaybatdau_arr[2], ngaybatdau_arr[1]-1, ngaybatdau_arr[0]);
+				const ngaybatdau_arr = $scope.data.ngaybd.split('/');
+				const ngaythuchien = new Date(ngaybatdau_arr[2], ngaybatdau_arr[1]-1, ngaybatdau_arr[0]);
 				ngaythuchien.setDate(ngaythuchien.getDate() + i);
 				ngaythuchien_arr.push(ngaythuchien);
 			}
-			var avoidDay = getAvoidDay(initOption, ngaythuchien_arr[0]);
+			const avoidDay = getAvoidDay(initOption, ngaythuchien_arr[0]);
 			for(i=0; i<=dayrange; i++){
 				(function(i) {
-					var promise = ngvFactory.layDanhSachNgvDaiHan(ngaythuchien_arr[i],
+					const promise = ngvFactory.layDanhSachNgvDaiHan(ngaythuchien_arr[i],
 						 $scope.data.giobd1,
 						 $scope.data.giokt1,
 						 chuoiquan,
 						 dichvu);
-					var cancelp = cancelableQ.wrap(promise);
+					const cancelp = cancelableQ.wrap(promise);
 					cancelp.then(function(data){
 						 	if(data.length>0){
-						 		var _dsNgvPhuHop = [];
-						 		var soluong = 1;
+						 		const _dsNgvPhuHop = [];
+						 		const soluong = 1;
 						 		if(avoidDay.length>0){
 							 		if(avoidDay.indexOf(days[ngaythuchien_arr[i].getDay()]) == -1){
 							 			soluong = 1;
@@ -1858,8 +1868,8 @@
 			});
 			$scope.initLanguage();
 		}
-		var layMangDichVu = function(){
-			var arr = [];
+		const layMangDichVu = function(){
+			const arr = [];
 			for(i=0; i<$scope.tieuchis; i++){
 				if($scope.tieuchis[i].data)
 					arr.push($scope.tieuchis[i].ten);
@@ -1872,7 +1882,7 @@
 		$scope.khuvuc = [];
 		$scope.quans=[];
 		$scope.initDataFirstTime = function(){
-			var q1 = filterFactory.getDSQuan().then(function(data){
+			const q1 = filterFactory.getDSQuan().then(function(data){
 				$scope.khuvuc = filterFactory.taoDanhSachKhuVuc(data);
 				for(i=0; i<data.length; i++){
 					$scope.quans.push({
@@ -1882,7 +1892,7 @@
 					});
 				}
 			})
-			var q2 = filterFactory.getDSTieuChi().then(function(data){
+			const q2 = filterFactory.getDSTieuChi().then(function(data){
 				for(i=0; i<data.length; i++){
 					$scope.tieuchis.push({
 						ten: data[i].tentieuchi,
@@ -1922,7 +1932,7 @@
 	    $scope.layDiaChi = function(){
 			if(navigator.geolocation) {
 			    navigator.geolocation.getCurrentPosition(function(position) {
-					var pos = {
+					const pos = {
 						lat: position.coords.latitude,
 						lng: position.coords.longitude
 					};
@@ -1961,7 +1971,7 @@
 			}
 		});
 		function parseDate(str) {
-		    var mdy = str.split('/')
+		    const mdy = str.split('/')
 		    return new Date(mdy[2], mdy[1]-1, mdy[0]);
 		}
 
@@ -1969,12 +1979,12 @@
 		    return Math.round((second-first)/(1000*60*60*24));
 		}
 		$scope.changeFilter = function(){
-			var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
-            var ngaybdarr = $scope.data.ngaybd.split('/');
-            var ngayktarr = $scope.data.ngaykt.split('/');
-            var bd1 = Number($scope.data.giobd1);
-            var kt1 = Number($scope.data.giokt1);
+			const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const ngaybdarr = $scope.data.ngaybd.split('/');
+            const ngayktarr = $scope.data.ngaykt.split('/');
+            const bd1 = Number($scope.data.giobd1);
+            const kt1 = Number($scope.data.giokt1);
 
             if(ngaybdarr[0] == now.getDate() 
                 && ngaybdarr[1] == now.getMonth()+1 
@@ -2074,8 +2084,8 @@
 			$scope.khachhang.diachi= '';
 	    }
 	    //tinh tien
-	    var tongSoLuongNgv = function(){
-	    	var soluongngv = 0;
+	    const tongSoLuongNgv = function(){
+	    	const soluongngv = 0;
 
 	    	for(i=0; i<$scope.data.lichdaihan.length; i++){
     			for(j=0; j<$scope.data.lichdaihan[i].dsNgvPhuHop.length; j++){
@@ -2089,88 +2099,88 @@
 	    }
 	    $scope.tinhtiendhTungNgay = function(){
 
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
 	    	return thanhtoanFactory.doiChuoiTienTe(phichuan + phingoaigio);
 	    }
 	    $scope.tinhtien_dh = function(){
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
 	    	return thanhtoanFactory.doiChuoiTienTe((phichuan+phingoaigio)*tongSoLuongNgv());
 	    }
 	    $scope.showTrangThaiYc = function(){
-	    	var tt = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
+	    	const tt = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
 	    	if(tt == 'Chưa tiến hành')
 	    		return 'Không có phụ phí';
 	    	else return 'Có phụ phí';
 	    }
 	    $scope.showPhiNgoaiGio = function(){
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 	    	
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
 	    	return thanhtoanFactory.doiChuoiTienTe(phingoaigio*tongSoLuongNgv());
 	    }
 	    $scope.showPhiCoBan = function(){
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
 	    	return thanhtoanFactory.doiChuoiTienTe((phichuan)*tongSoLuongNgv());
 	    }
-	    var daChonNgv = function(){
+	    const daChonNgv = function(){
 	    	if(tongSoLuongNgv() > 0)
 	    		return true;
 	    	else
 	    		return false;
 	    }
 	    //---------------------luu yeu cau---------------------------------
-	    var layDanhSachDichVu = function(){
-	    	var result = [];
+	    const layDanhSachDichVu = function(){
+	    	const result = [];
 	    	for(i=0; i<$scope.tieuchis.length; i++){
 	    		if($scope.tieuchis[i].data == true)
 	    			result.push($scope.tieuchis[i].ten);
@@ -2199,9 +2209,9 @@
 		}
 	    $scope.llvpromises = [];
 	    $scope.ctycpromises = [];
-	    var luu_yeucau_b2 = function(){
+	    const luu_yeucau_b2 = function(){
 	    	$scope.loading_yeucau = true;
-	    	var promises = [];
+	    	const promises = [];
 	    	for(i=0; i<$scope.data.lichdaihan; i++){
 	    		(function(i) {
 	    			for(j=0; j<$scope.data.lichdaihan[i].dsNgvPhuHop.length; j++){
@@ -2230,30 +2240,30 @@
 			    	);
 	    		}
 	    		else{
-	    			$http.get('http://procleaner.vn:4444/api/khachhang?sdt='+$scope.khachhang.sdt, { cache: false})
-				        .success(function(data) {
+	    			$http.get('http://localhost:4444/api/khachhang?sdt='+$scope.khachhang.sdt, { cache: false})
+				        .then(function(data) {
 
-				        	var trangthaiyc = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
-				        	var mangdichvu = layDanhSachDichVu();
+				        	const trangthaiyc = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
+				        	const mangdichvu = layDanhSachDichVu();
 
-				        	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    					var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
-	    					var phingoaigiolonnhatNgv = thanhtoanFactory.getPhiNgoaiGioLonNhatNgv($scope.tieuchis);
+				        	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    					const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    					const phingoaigiolonnhatNgv = thanhtoanFactory.getPhiNgoaiGioLonNhatNgv($scope.tieuchis);
 
-				        	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+				        	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
 				        															 $scope.data.giokt1);
-				        	var chiphingoaigioCtyc = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+				        	const chiphingoaigioCtyc = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
 				        															phingoaigiolonnhat,
 				        															phicobanlonnhat);
-				        	var sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
+				        	const sogiongoaigioYc = thanhtoanFactory.tinhSoGioNgoaiGioYc($scope.data.giobd1,
 				        															 $scope.data.giokt1,
 				        															 tongSoLuongNgv());
-				        	var chiphingoaigioYc = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
+				        	const chiphingoaigioYc = thanhtoanFactory.tinhPhiNgoaiGioYc(sogiongoaigioYc,
 				        															phingoaigiolonnhat,
 				        															phicobanlonnhat,
 				        															tongSoLuongNgv());
 
-					        var dulieu_luuyeucau = {
+					        const dulieu_luuyeucau = {
 					        		trangthaiyc: trangthaiyc,
 					        		mangdichvu: mangdichvu,
 					        		ngaybd: $scope.data.ngaybd,
@@ -2278,12 +2288,12 @@
 				        	if(data.length>0){
 				        		
 					        	$http.post('/luuyeucau_dh', dulieu_luuyeucau)
-							        .success(function(data) {
+							        .then(function(data) {
 							        	if(data = 'done'){
 							        		$scope.loading_yeucau = false;
     						   				$scope.hoanthanh_thanhtoan_dh = true;
 						        		}
-							        }).error(function(data) {
+							        }).catch(function(data) {
 							            console.log('Error: ' + data);
 					        		});
 				        	}else{
@@ -2291,17 +2301,17 @@
 					            thanhtoanFactory.luuKhachHang($scope.khachhang);
 
 					        	$http.post('/luuyeucau_dh', dulieu_luuyeucau)
-							        .success(function(data) {
+							        .then(function(data) {
 							        	if(data = 'done'){
 							        		$scope.loading_yeucau = false;
     						   				$scope.hoanthanh_thanhtoan_dh = true;
 						        		}
-							        }).error(function(data) {
+							        }).catch(function(data) {
 							            console.log('Error: ' + data);
 					        		});
 				        	}
 				        })
-				        .error(function(data) {
+				        .catch(function(data) {
 				            console.log('Error: ' + data);
 		    			});
 	    		}
@@ -2329,7 +2339,7 @@
 	    //---------------------end-----------------------------------------
 	    $scope.hoanthanh_thanhtoan = function(i){
 	    	if(i==1){
-	    		var expireDate = new Date();
+	    		const expireDate = new Date();
 				expireDate.setDate(expireDate.getDate() + 1);
 				$cookies.remove('khachhang');
 				$cookies.put('khachhang', $scope.khachhang.sdt, {'expires': expireDate});
@@ -2511,7 +2521,7 @@
 		$scope.layDiaChi = function(){
 			if(navigator.geolocation) {
 			    navigator.geolocation.getCurrentPosition(function(position) {
-					var pos = {
+					const pos = {
 						lat: position.coords.latitude,
 						lng: position.coords.longitude
 					};
@@ -2558,7 +2568,7 @@
 		$scope.closeDangNhap = function(){
 			$('#DangNhapForm').modal('hide');
 		}
-		var DangNhapb2 = function(kieudangnhap){
+		const DangNhapb2 = function(kieudangnhap){
 			thanhtoanFactory.timKhachHang($scope.khachhang.sdt).then(function(data){
 				if(data.length > 0){
 					$('#DangNhapForm').modal('hide');
@@ -2566,7 +2576,7 @@
 					$scope.khachhang.sdt = data[0].sdt;
 					$scope.khachhang.diachi = data[0].diachi;
 					$scope.khachhang.hoten = data[0].hoten;
-					var expireDate = new Date();
+					const expireDate = new Date();
   					expireDate.setDate(expireDate.getDate() + 1);
 					$cookies.put('khachhang', data[0].sdt, {'expires': expireDate});
 					khachhangFactory.setKhachHang($scope.khachhang);
@@ -2624,10 +2634,10 @@
 		$scope.nhanxet = null;
 		$scope.tienno = 0;
 		$scope.isSuaThongTinTK = false;
-		var tab = $location.search().tab;
+		const tab = $location.search().tab;
 		$scope.doitien = thanhtoanFactory.doiChuoiTienTe;
-		var tinhTienNo = function(ycnh, ycdh){
-			var tienno = 0;
+		const tinhTienNo = function(ycnh, ycdh){
+			const tienno = 0;
 			for(i=0; i<ycnh.length; i++){
 				if(ycnh[i].trangthai != 'Hoàn thành')
 					tienno+=ycnh[i].chiphi;
@@ -2648,9 +2658,9 @@
 			$scope.isChitietYc = false;
 			
 			$scope.loading = true;
-			var promises = [];
-			var promise_ycnganhan = khachhangFactory.getYeuCauNh(Number($cookies.get('khachhang')));
-			var promise_ycdaihan = khachhangFactory.getYeuCauDh(Number($cookies.get('khachhang')));
+			const promises = [];
+			const promise_ycnganhan = khachhangFactory.getYeuCauNh(Number($cookies.get('khachhang')));
+			const promise_ycdaihan = khachhangFactory.getYeuCauDh(Number($cookies.get('khachhang')));
 			promises.push(promise_ycnganhan);
 			promises.push(promise_ycdaihan);
 			$q.all(promises).then(function(data){
@@ -2666,9 +2676,9 @@
 			$scope.isChitietYc = false;
 
 			$scope.loading = true;
-			var promises = [];
-			var promise_ycnganhan = khachhangFactory.getYeuCauNh(Number($cookies.get('khachhang')));
-			var promise_ycdaihan = khachhangFactory.getYeuCauDh(Number($cookies.get('khachhang')));
+			const promises = [];
+			const promise_ycnganhan = khachhangFactory.getYeuCauNh(Number($cookies.get('khachhang')));
+			const promise_ycdaihan = khachhangFactory.getYeuCauDh(Number($cookies.get('khachhang')));
 			promises.push(promise_ycnganhan);
 			promises.push(promise_ycdaihan);
 			$q.all(promises).then(function(data){
@@ -2692,9 +2702,9 @@
 		$scope.initData = function(){
 			$scope.loading = true;
 			$scope.khachhang = khachhangFactory.getKhachHang();
-			var promises = [];
-			var promise_ycnganhan = khachhangFactory.getYeuCauNh(Number($cookies.get('khachhang')));
-			var promise_ycdaihan = khachhangFactory.getYeuCauDh(Number($cookies.get('khachhang')));
+			const promises = [];
+			const promise_ycnganhan = khachhangFactory.getYeuCauNh(Number($cookies.get('khachhang')));
+			const promise_ycdaihan = khachhangFactory.getYeuCauDh(Number($cookies.get('khachhang')));
 			promises.push(promise_ycnganhan);
 			promises.push(promise_ycdaihan);
 			$q.all(promises).then(function(data){
@@ -2814,7 +2824,7 @@
 				$('#star5').removeClass('fa-star-o');
 			}
 		}
-		var resetNhanXetCtyc = function(){
+		const resetNhanXetCtyc = function(){
 			$('#star1').removeClass('fa-star');
 			$('#star2').removeClass('fa-star');
 			$('#star3').removeClass('fa-star');
@@ -2870,7 +2880,7 @@
 			        .targetEvent(null)
 			    );
 			}
-		var kiemtraYeuCauHoanThanh = function(chitietyeucau){
+		const kiemtraYeuCauHoanThanh = function(chitietyeucau){
 			for(i=0;i<chitietyeucau.length;i++){
 				if(chitietyeucau[i].trangthai != 'Hoàn thành')
 					return false;
@@ -2966,14 +2976,14 @@
 	    $('#formTheoNgay').submit(function(ev) {
             ev.preventDefault(); // to stop the form from submitting
             /* Validations go here */
-            var bd1 = Number($("#gbdnh").val());
-            var kt1 = Number($("#gktnh").val());
-            var dichvu = $("#dichvunh").val();
-            var quan = $("#quannh").val();
-            var ngay = $("input[name=ngay]").val();
-            var ngayarr = ngay.split('/');
-            var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const bd1 = Number($("#gbdnh").val());
+            const kt1 = Number($("#gktnh").val());
+            const dichvu = $("#dichvunh").val();
+            const quan = $("#quannh").val();
+            const ngay = $("input[name=ngay]").val();
+            const ngayarr = ngay.split('/');
+            const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
             //validate empty field
             if(quan == ''){
                 $mdDialog.show(
@@ -3072,16 +3082,16 @@
         $('#formDaiHan').submit(function(ev) {
             ev.preventDefault(); // to stop the form from submitting
             /* Validations go here */
-            var bd1 = Number($("#gbddh").val());
-            var kt1 = Number($("#gktdh").val());
-            var quan = $("#quandh").val();
-            var dichvu = $("#dichvudh").val();
-            var ngaybd = $("input[name=ngaybd]").val();
-            var ngaykt = $("input[name=ngaykt]").val();
-            var ngaybdarr = ngaybd.split('/');
-            var ngayktarr = ngaykt.split('/');
-            var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const bd1 = Number($("#gbddh").val());
+            const kt1 = Number($("#gktdh").val());
+            const quan = $("#quandh").val();
+            const dichvu = $("#dichvudh").val();
+            const ngaybd = $("input[name=ngaybd]").val();
+            const ngaykt = $("input[name=ngaykt]").val();
+            const ngaybdarr = ngaybd.split('/');
+            const ngayktarr = ngaykt.split('/');
+            const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
             //validate empty field
             if(quan == ''){
                 $mdDialog.show(
@@ -3174,7 +3184,7 @@
                 return;
             }
             function parseDate(str) {
-			    var mdy = str.split('/')
+			    const mdy = str.split('/')
 			    return new Date(mdy[2], mdy[1]-1, mdy[0]);
 			}
 
@@ -3283,7 +3293,7 @@
 		$scope.mang_tieuchi = [];
 		$scope.hoanthanh_thanhtoan_ct = false;
 		$scope.dalayMXN = false;
-		var idngv = $('#idngv').val();
+		const idngv = $('#idngv').val();
 		$scope.data = {
 			soluongdv: 0,
 			isReverse: false,
@@ -3352,10 +3362,10 @@
 		$scope.chuyenNgv = function(id){
 			$timeout(function(){
 				$scope.loadingSlick = false;
-				var promise1 = ngvFactory.layNgvTheoId(id).then(function(data){
+				const promise1 = ngvFactory.layNgvTheoId(id).then(function(data){
 					$scope.ngvDcChon = data[0];
 				})
-				var promise2 = ngvFactory.layDanhSachNgvSub(id).then(function(data){
+				const promise2 = ngvFactory.layDanhSachNgvSub(id).then(function(data){
 					if(data.length == 1){
 						$scope.ngv_sub1 = data[0];
 					}
@@ -3364,9 +3374,9 @@
 						$scope.ngv_sub2 = data[1];
 					}
 					if(data.length > 2){
-						var min = 0;
-						var max = data.length-1;
-						var random = [];
+						const min = 0;
+						const max = data.length-1;
+						const random = [];
 						var random1 = Math.floor(Math.random() * (max - min + 1)) + min;
 						var random2; 
 						while(true){
@@ -3377,7 +3387,7 @@
 						$scope.ngv_sub2 = data[random2];
 					}
 				})
-				var promise3 = filterFactory.getDSTieuChi().then(function(data){
+				const promise3 = filterFactory.getDSTieuChi().then(function(data){
 					$scope.tieuchis = [];
 					for(i=0; i<data.length; i++){
 						$scope.tieuchis.push({
@@ -3408,7 +3418,7 @@
 		$scope.layDiaChi = function(){
 			if(navigator.geolocation) {
 			    navigator.geolocation.getCurrentPosition(function(position) {
-					var pos = {
+					const pos = {
 						lat: position.coords.latitude,
 						lng: position.coords.longitude
 					};
@@ -3454,10 +3464,10 @@
 			$scope.isThanhToan = false;
 		}
 		$scope.initData = function(){
-			var promise1 = ngvFactory.layNgvTheoId(idngv).then(function(data){
+			const promise1 = ngvFactory.layNgvTheoId(idngv).then(function(data){
 				$scope.ngvDcChon = data[0];
 			})
-			var promise2 = ngvFactory.layDanhSachNgvSub(idngv).then(function(data){
+			const promise2 = ngvFactory.layDanhSachNgvSub(idngv).then(function(data){
 				if(data.length == 1){
 					$scope.ngv_sub1 = data[0];
 				}
@@ -3466,9 +3476,9 @@
 					$scope.ngv_sub2 = data[1];
 				}
 				if(data.length > 2){
-					var min = 0;
-					var max = data.length-1;
-					var random = [];
+					const min = 0;
+					const max = data.length-1;
+					const random = [];
 					var random1 = Math.floor(Math.random() * (max - min + 1)) + min;
 					var random2; 
 					while(true){
@@ -3479,7 +3489,7 @@
 					$scope.ngv_sub2 = data[random2];
 				}
 			})
-			var promise3 = filterFactory.getDSTieuChi().then(function(data){
+			const promise3 = filterFactory.getDSTieuChi().then(function(data){
 				for(i=0; i<data.length; i++){
 					$scope.tieuchis.push({
 						ten: data[i].tentieuchi,
@@ -3502,7 +3512,7 @@
 		}
 		$scope.hoanthanh_thanhtoan = function(i){
 			if(i==1){
-	    		var expireDate = new Date();
+	    		const expireDate = new Date();
 				expireDate.setDate(expireDate.getDate() + 1);
 				$cookies.remove('khachhang');
 				$cookies.put('khachhang', $scope.khachhang.sdt, {'expires': expireDate});
@@ -3542,24 +3552,24 @@
 	    		$scope.data.giobd1 == null || 
 	    		$scope.data.ngay == null) return;
 	    	
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
 	    	return thanhtoanFactory.doiChuoiTienTe(phichuan + phingoaigio);
 	    }
 	    $scope.showTrangThaiYc = function(){
-	    	var tt = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
+	    	const tt = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
 	    	if(tt == 'Chưa tiến hành')
 	    		return 'Không có phụ phí';
 	    	else return 'Có phụ phí';
@@ -3570,17 +3580,17 @@
 	    		$scope.data.giobd1 == null || 
 	    		$scope.data.ngay == null) return;
 	    	
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
@@ -3592,17 +3602,17 @@
 	    		$scope.data.giobd1 == null || 
 	    		$scope.data.ngay == null) return;
 	    	
-	    	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-	    	var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+	    	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+	    	const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
 
-	    	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+	    	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
         															   $scope.data.giokt1); 
 
-	    	var phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
+	    	const phichuan = thanhtoanFactory.tinhGiaChuanCtyc($scope.data.giobd1,
 	        		 									    $scope.data.giokt1, 
 	        		 									    phicobanlonnhat);
 
-	    	var phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+	    	const phingoaigio = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
     															phingoaigiolonnhat,
     															phicobanlonnhat);
 
@@ -3610,31 +3620,31 @@
 	    }
 	    //-------------------------------------------------------
 	    //--------------------luu yeu cau------------------------
-	    var layDanhSachDichVu = function(){
-	    	var result = [];
+	    const layDanhSachDichVu = function(){
+	    	const result = [];
 	    	for(i=0; i<$scope.tieuchis.length; i++){
 	    		if($scope.tieuchis[i].data == true)
 	    			result.push($scope.tieuchis[i].ten);
 	    	}
 	    	return result;
 	    }
-	    var luu_yeucau_b2 = function(){
+	    const luu_yeucau_b2 = function(){
 	    	$scope.loading_yeucau = true;
-            $http.get('http://procleaner.vn:4444/api/khachhang?sdt='+$scope.khachhang.sdt, { cache: false})
-		        .success(function(data) {
-		        	var trangthaiyc = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
-		        	var mangdichvu = layDanhSachDichVu();
+            $http.get('http://localhost:4444/api/khachhang?sdt='+$scope.khachhang.sdt, { cache: false})
+		        .then(function(data) {
+		        	const trangthaiyc = thanhtoanFactory.getTrangThaiYeuCau($scope.tieuchis);
+		        	const mangdichvu = layDanhSachDichVu();
 
-		        	var phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
-					var phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
-					var phingoaigiolonnhatNgv = thanhtoanFactory.getPhiNgoaiGioLonNhatNgv($scope.tieuchis);
+		        	const phicobanlonnhat = thanhtoanFactory.getPhiCoBanLonNhat($scope.tieuchis);
+					const phingoaigiolonnhat = thanhtoanFactory.getPhiNgoaiGioLonNhat($scope.tieuchis);
+					const phingoaigiolonnhatNgv = thanhtoanFactory.getPhiNgoaiGioLonNhatNgv($scope.tieuchis);
 
-		        	var sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
+		        	const sogiongoaigioCtyc = thanhtoanFactory.tinhSoGioNgoaiGioCtyc($scope.data.giobd1,
 				        															 $scope.data.giokt1);
-		        	var chiphingoaigioCtyc = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
+		        	const chiphingoaigioCtyc = thanhtoanFactory.tinhPhiNgoaiGioCtyc(sogiongoaigioCtyc,
 		        															phingoaigiolonnhat,
 		        															phicobanlonnhat);
-		        	var dulieu_luuyeucau = {
+		        	const dulieu_luuyeucau = {
 			        		trangthaiyc: trangthaiyc,
 			        		mangdichvu: mangdichvu,
 			        		ngay: $scope.data.ngay,
@@ -3655,12 +3665,12 @@
 		        	if(data.length>0){
 		        		
 			        	$http.post('/luuyeucau_tt', dulieu_luuyeucau)
-					        .success(function(data) {
+					        .then(function(data) {
 					        	if(data = 'done'){
 					        		$scope.hoanthanh_thanhtoan_ct = true;
 									$scope.loading_yeucau = false;
 					        	}
-					        }).error(function(data) {
+					        }).catch(function(data) {
 					            console.log('Error: ' + data);
 			        		});
 		        	}else{
@@ -3668,17 +3678,17 @@
 			            thanhtoanFactory.luuKhachHang($scope.khachhang);					            
 			            //Lưu yêu cầu
 			        	$http.post('/luuyeucau_tt', dulieu_luuyeucau)
-					        .success(function(data) {
+					        .then(function(data) {
 					        	if(data = 'done'){
 					        		$scope.hoanthanh_thanhtoan_ct = true;
 									$scope.loading_yeucau = false;
 					        	}
-					        }).error(function(data) {
+					        }).catch(function(data) {
 					            console.log('Error: ' + data);
 			        		});
 		        	}
 		        })
-		        .error(function(data) {
+		        .catch(function(data) {
 		            console.log('Error: ' + data);
     			});
 	    }
@@ -3717,11 +3727,11 @@
 			if($scope.data.ngay == null || 
 			   $scope.data.giobd1 == null || 
 			   $scope.data.giokt1 == null) return;
-			var bd1 = Number($scope.data.giobd1);
-            var kt1 = Number($scope.data.giokt1);
-	    	var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
-            var ngayarr = $scope.data.ngay.split('/');
+			const bd1 = Number($scope.data.giobd1);
+            const kt1 = Number($scope.data.giokt1);
+	    	const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const ngayarr = $scope.data.ngay.split('/');
 	    	if(ngayarr[0] == now.getDate() 
                 && ngayarr[1] == now.getMonth()+1 
                 && ngayarr[2] == now.getFullYear()){
@@ -3769,11 +3779,11 @@
 			if($scope.data.ngay == null || 
 			   $scope.data.giobd1 == null || 
 			   $scope.data.giokt1 == null) return;
-			var bd1 = Number($scope.data.giobd1);
-            var kt1 = Number($scope.data.giokt1);
-	    	var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
-            var ngayarr = $scope.data.ngay.split('/');
+			const bd1 = Number($scope.data.giobd1);
+            const kt1 = Number($scope.data.giokt1);
+	    	const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const ngayarr = $scope.data.ngay.split('/');
 	    	if(ngayarr[0] == now.getDate() 
                 && ngayarr[1] == now.getMonth()+1 
                 && ngayarr[2] == now.getFullYear()){
@@ -3822,11 +3832,11 @@
 			if($scope.data.ngay == null || 
 			   $scope.data.giobd1 == null || 
 			   $scope.data.giokt1 == null) return;
-			var bd1 = Number($scope.data.giobd1);
-            var kt1 = Number($scope.data.giokt1);
-	    	var now = new Date();
-            var sophutht = now.getHours() * 60 + now.getMinutes() + 180;
-            var ngayarr = $scope.data.ngay.split('/');
+			const bd1 = Number($scope.data.giobd1);
+            const kt1 = Number($scope.data.giokt1);
+	    	const now = new Date();
+            const sophutht = now.getHours() * 60 + now.getMinutes() + 180;
+            const ngayarr = $scope.data.ngay.split('/');
 	    	if(ngayarr[0] == now.getDate() 
                 && ngayarr[1] == now.getMonth()+1 
                 && ngayarr[2] == now.getFullYear()){
@@ -3891,7 +3901,7 @@
 			noidung: null
 		}
 		$scope.doitac = [];
-		var getDoitac = function(){
+		const getDoitac = function(){
 			doitacFactory.layDoiTac().then(function(data){
 				$scope.doitac = data;
 
@@ -3910,12 +3920,12 @@
 	        arrows: true
 		}
 		$scope.guiEmail = function(){
-			var data = {ten:$scope.contact.ten,
+			const data = {ten:$scope.contact.ten,
 					    sdt:$scope.contact.sdt,
 					    email:$scope.contact.email,
 					    noidung:$scope.contact.noidung};
 			$http.post('/sendmail',data)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	$mdDialog.show(
 				      $mdDialog.alert()
 				        .parent(angular.element(document.querySelector('body')))
@@ -3925,7 +3935,7 @@
 				        .ok('Đồng ý!')
 				        .targetEvent(null)
 				    );
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		}
@@ -3934,7 +3944,7 @@
 	module.controller('doitacController', function(doitacFactory, $scope, $http, $mdDialog){
 		
 		$scope.doitac = [];
-		var getDoitac = function(){
+		const getDoitac = function(){
 			doitacFactory.layDoiTac().then(function(data){
 				$scope.doitac = data;
 

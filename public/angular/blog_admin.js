@@ -42,13 +42,13 @@
 	});
 	module.factory('blogFactory', function($http, $q){
 		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		var api_url = 'http://localhost:4444/api';
 		service.getBlogs = function(){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -56,9 +56,9 @@
 		service.getBlogById = function(_id){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?_id='+_id, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -66,9 +66,9 @@
 		service.checkBlogUrl = function(_url){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?url='+_url, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -76,9 +76,9 @@
 		service.checkBlogUrlEdit = function(_url, _id){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?url='+_url+'&_id__nin='+_id, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -86,9 +86,9 @@
 		service.addNewBlog = function(_blog){
 			var deferred = $q.defer();
 			$http.post(api_url+'/blog', _blog)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -96,9 +96,9 @@
 		service.removeBlog = function(_id){
 			var deferred = $q.defer();
 			$http.delete(api_url+'/blog/'+_id)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -109,9 +109,9 @@
 				tags: _tags
 			}
 			$http.put(api_url+'/blog/'+_id, data)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -122,9 +122,9 @@
 				ten: _ten
 			}
 			$http.put(api_url+'/blog/'+_id, data)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -135,9 +135,9 @@
 				url: _url
 			}
 			$http.put(api_url+'/blog/'+_id, data)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -148,9 +148,9 @@
 				noidung: _noidung
 			}
 			$http.put(api_url+'/blog/'+_id, data)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -161,9 +161,9 @@
 				noidungdaidien: _noidungdaidien
 			}
 			$http.put(api_url+'/blog/'+_id, data)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -172,14 +172,14 @@
 	})
 	module.factory('blogImgFactory', function($http, $q){
 		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		var api_url = 'http://localhost:4444/api';
 		service.getBlogImgs = function(){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blogimg', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	data.reverse();
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -187,9 +187,9 @@
 		service.getBlogImgById = function(_id){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blogimg?_id='+_id, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -197,11 +197,11 @@
 		service.removeBlogImg = function(_imgObj){
 			var deferred = $q.defer();
 	    	$http.post('/removeimg', _imgObj)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	if(data = 'done'){
 		        		deferred.resolve('done');
 	        		}
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            deferred.resolve('failed');
 	    		});
 		    return deferred.promise;
@@ -210,14 +210,14 @@
 	})
 	module.factory('partnerFactory', function($http, $q){
 		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		var api_url = 'http://localhost:4444/api';
 		service.getPartners = function(){
 			var deferred = $q.defer();
 			$http.get(api_url+'/doitac', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	data.reverse();
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -225,9 +225,9 @@
 		service.addPartner = function(_partner){
 			var deferred = $q.defer();
 			$http.post(api_url+'/doitac', _partner)
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -235,9 +235,9 @@
 		service.removePartner = function(_id){
 			var deferred = $q.defer();
 			$http.delete(api_url+'/doitac/'+_id, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve('done');
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;

@@ -33,13 +33,13 @@
     }]);
 	module.factory('blogFactory', function($http, $q){
 		var service = {};
-		var api_url = 'http://procleaner.vn:4444/api';
+		var api_url = 'http://localhost:4444/api';
 		service.getNewestBlogs = function(){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?sort=-ngayviet&limit=4', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -47,9 +47,9 @@
 		service.getBlogTags = function(){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?select=tags', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -57,9 +57,9 @@
 		service.getBlogsLength = function(){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?select=_id', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data.length);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -67,9 +67,9 @@
 		service.getBlogsLengthByTag = function(_tag){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?select=_id&tags__in='+_tag, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data.length);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -78,9 +78,9 @@
 			var deferred = $q.defer();
 			var blogsSkip = (_page-1)*5;
 			$http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -89,9 +89,9 @@
 			var deferred = $q.defer();
 			var blogsSkip = (_page-1)*5;
 			$http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&tags__in='+_tag, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -99,9 +99,9 @@
 		service.getBlogByUrl = function(_url){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?url='+_url, { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -109,9 +109,9 @@
 		service.getBlogsLengthBySearch = function(_searchString){
 			var deferred = $q.defer();
 			$http.get(api_url+'/blog?sort=-ngayviet&noidung__regex=/'+_searchString+'/', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data.length);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
@@ -120,9 +120,9 @@
 			var deferred = $q.defer();
 			var blogsSkip = (_page-1)*5;
 			$http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&noidung__regex=/'+_searchString+'/', { cache: false})
-		        .success(function(data) {
+		        .then(function(data) {
 		        	deferred.resolve(data);
-		        }).error(function(data) {
+		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 		    return deferred.promise;
