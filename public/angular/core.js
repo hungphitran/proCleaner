@@ -498,9 +498,6 @@
 	    	return _kinhnghiems;
 	    }
 
-		console.log('get tieu chi');
-
-
 	    service.getDSTieuChi = function(){
 	    	const deferred = $q.defer();
 			$http.get(api_url+'/tieuchi', { cache: false})
@@ -984,9 +981,6 @@
 			    $q,
 			    $timeout,
 			    $cookies){
-
-
-
 		$scope.Math = window.Math;
 		//thong bao ngay gio
 		$scope.thongbaongay = '';
@@ -1019,12 +1013,12 @@
 			diachi: '',
 		};
 		//function
-		$scope.tinh_tuoi_ngv = filterFactory.tinhTuoiNgv;
-		$scope.doi_ngaysearch = filterFactory.doiNgaySearch;
-		$scope.them_filter_dichvu = filterFactory.them_filter_dichvu;
-		$scope.filter_dichvu = filterFactory.filter_dichvu;
-		$scope.filter_kinhnghiem = filterFactory.filter_kinhnghiem;
-		$scope.filter_quan = filterFactory.filter_quan;
+		$scope.tinh_tuoi_ngv = filterFactory.tinhTuoiNgv();
+		$scope.doi_ngaysearch = filterFactory.doiNgaySearch();
+		$scope.them_filter_dichvu = filterFactory.them_filter_dichvu();
+		$scope.filter_dichvu = filterFactory.filter_dichvu();
+		$scope.filter_kinhnghiem = filterFactory.filter_kinhnghiem();
+		$scope.filter_quan = filterFactory.filter_quan();
 
 		$scope.ngv_isSelected = ngvFactory.ngv_isSelected;
 		$scope.isSelected = ngvFactory.isSelected;
@@ -2918,8 +2912,7 @@
 			dichvu: [],
 		    giobd1: $location.search().giobd1,
 		    giokt1: $location.search().giokt1,
-		    danhsachquan: [
-		    ],
+		    danhsachquan: [],
 		    danhsachdichvu: [],
 		    availableOptions: [
 			      {id: 360, name: '6:00 giờ'},
@@ -2953,6 +2946,12 @@
 			      {id: 1200, name: '20:00 giờ'}
 		    ],
 	    };
+
+		// Lấy dữ liệu từ filterFactory và gán vào $scope.data
+		const factoryData = filterFactory.getDuLieuPage();
+		$scope.data.danhsachquan = factoryData.danhsachquan;
+		$scope.data.danhsachdichvu = factoryData.danhsachdichvu;
+
 	    for(i=0; i<$scope.data.availableOptions.length; i++){
 	    	if(Number($scope.data.giobd1) == $scope.data.availableOptions[i].id)
 	    		$scope.data.giobd1 = $scope.data.availableOptions[i].id;
@@ -2966,7 +2965,8 @@
 				});
 			}
 		});
-		filterFactory.getDSQuan().then(function(data){
+		filterFactory.getDSQuan()
+		.then(function(data){
 			for(i=0; i<data.length; i++){
 				$scope.data.danhsachquan.push(
 					data[i].tenquan
@@ -3232,6 +3232,7 @@
             this.submit();
         });
 	});
+
 	module.controller('slickController', function(ngvFactory, filterFactory, $scope, $http, $log, $location, $mdDialog, $timeout){
 		$scope.dsNgv = [];
 		$scope.loadingSlick = true;

@@ -235,7 +235,7 @@ html(lang='en')
                           input#quannh.form-control.sb.typeahead(type='hidden', name='quan', value='{{data.quan}}')
 
                           select.form-control.sb.fixwdichvu.nya-selectpicker(ng-model="data.dichvu" multiple data-size="7")
-                            option(ng-repeat="dichvu in data.danhsachdichvu" value="{{dichvu.ten}}"){{dichvu.ten}}
+                            option(ng-repeat="dichvu in data.danhsachdichvu" value="{{dichvu}}"){{dichvu}}
                           input#dichvunh.form-control.sb.typeahead(type='hidden', name='dichvu', value='{{data.dichvu}}')
 
                           input.form-control.sb.dpindex.fixWTimeNH(type='text', name='ngay', placeholder='Chọn ngày', readonly='readonly', autocomplete='off')
