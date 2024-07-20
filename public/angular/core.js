@@ -1,4 +1,4 @@
-﻿(function(){
+﻿﻿(function(){
 	//search module
 	const module = angular.module('SearchModule',
 	 ['ngMaterial','ngMessages','ui.bootstrap','slickCarousel','ngRoute','ui.calendar','cancelable-q','ngCookies','nya.bootstrap.select']);
@@ -500,14 +500,14 @@
 
 	    service.getDSTieuChi = function(){
 	    	const deferred = $q.defer();
-			$http.get(api_url+'/tieuchi', { cache: false})
-		        .then(function(data) {
-					console.log(data);
-		        	deferred.resolve(data);
-		        })
-		        .catch(function(data) {
-		            console.log('Error: ' + data);
-        	});
+			// $http.get(api_url+'/tieuchi', { cache: false})
+		    //     .then(function(data) {
+			// 		console.log(data);
+		    //     	deferred.resolve(data);
+		    //     })
+		    //     .catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// });
 		    return deferred.promise;
 	    }
 	    service.getDSQuan = function(){
