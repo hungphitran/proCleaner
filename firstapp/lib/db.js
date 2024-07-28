@@ -11,7 +11,7 @@ connect();
 // Connect to mongo
 function connect() {
  //var url = 'mongodb://' + username + ':' + password + address;
- mongoose.connect('mongodb://localhost/procleanerdb');
+ mongoose.connect('mongodb+srv://nckhe22:nckhe22@procleaner.ragb04b.mongodb.net/?retryWrites=true&w=majority&appName=Procleaner');
  //mongoose.connect(url);
 }
 function disconnect() {mongoose.disconnect()}

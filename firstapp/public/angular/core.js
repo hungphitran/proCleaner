@@ -16,30 +16,44 @@
 	module.factory('doitacFactory', function($http, $q){
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
-		service.layDoiTac = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/doitac', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.layDoiTac = async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/doitac', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try {
+				const response = await $http.get(api_url + '/doitac', { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		return service;
 	})
 	module.factory('ngvFactory', function($http, $q){
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
-		service.layDanhSachNgvAll = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/nguoigiupviec?sort=hoten', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.layDanhSachNgvAll = async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/nguoigiupviec?sort=hoten', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try {
+				const response = await $http.get(api_url + '/nguoigiupviec?sort=hoten', { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		service.layDanhSachNgv = function(ngay, giobd, giokt, chuoiquan){
 			var deferred = $q.defer();
@@ -511,27 +525,12 @@
 		    // return deferred.promise;
 
 				try {
-					console.log('begin')
 					const response = await $http.get(api_url + '/tieuchi', { cache: false });
-					console.log('end with response: ',response)
 					return response.data;
 				} catch (error) {
 					console.error('Error1:', error);
 					throw error;
 				}
-
-			// return fetch(api_url+'/tieuchi')
-			// .then(res=>{
-			// 	if(!res.ok){
-			// 		return res.status(500).json()
-			// 	}
-			// 	return res.json()
-			// })
-			// .then(data=>{
-			// 	console.log(data);
-			// 	return data;
-			// })
-			// .catch(error=>console.error(error))
 	    }
 	    service.getDSQuan =async function(){
 	    	// var deferred = $q.defer();
@@ -670,17 +669,25 @@
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
 		//lưu khách hàng
-		service.timKhachHang = function(sdt){
-			var deferred = $q.defer();
-			var q = '?sdt=' + sdt;
-			$http.get(api_url+'/khachhang'+q, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        })
-		        .catch(function(data) {
-		            console.log('Error: ' + data);
-        	});
-		    return deferred.promise;
+		service.timKhachHang = async function(sdt){
+			// var deferred = $q.defer();
+			// var q = '?sdt=' + sdt;
+			// $http.get(api_url+'/khachhang'+q, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     })
+		    //     .catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// });
+		    // return deferred.promise;
+
+			try {
+				const response = await $http.get(api_url + '/khachhang'+'?sdt='+sdt, { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 	    }
 		service.luuKhachHang = function(khachhang){
 			var deferred = $q.defer();
@@ -2464,14 +2471,15 @@
 		}
 		$scope.$watch('khachhang.sdt', function(newVal, oldVal){
 			if(newVal == null) return;
-			if(newVal.toString().length < 7) {
+			if(newVal.toString().length < 10) {
 				$scope.thongbaosdt.dangky = 'Số điện thoại phải từ 10 số';
 				$scope.thongbaosdt.dangnhap = 'Số điện thoại phải từ 10 số';
 				$scope.daxacnhansdt.dangky = false;
 				$scope.daxacnhansdt.dangnhap = false;
 			}
 			else {
-				thanhtoanFactory.timKhachHang($scope.khachhang.sdt).then(function(data){
+				thanhtoanFactory.timKhachHang($scope.khachhang.sdt)
+				.then(function(data){
 					if(data.length > 0){
 						$scope.thongbaosdt.dangky = 'số này đã được đăng ký!!';
 						$scope.thongbaosdt.dangnhap = '';
@@ -3933,7 +3941,6 @@
 		var getDoitac = function(){
 			doitacFactory.layDoiTac().then(function(data){
 				$scope.doitac = data;
-
 			})
 		}
 		getDoitac();
