@@ -34,98 +34,167 @@
 	module.factory('blogFactory', function($http, $q){
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
-		service.getNewestBlogs = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?sort=-ngayviet&limit=4', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getNewestBlogs =async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?sort=-ngayviet&limit=4', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blog?sort=-ngayviet&limit=4')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogTags = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?select=tags', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogTags =async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?select=tags', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?select=tags')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogsLength = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?select=_id', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data.length);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogsLength =async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?select=_id', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data.length);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?select=_id')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogsLengthByTag = function(_tag){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?select=_id&tags__in='+_tag, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data.length);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogsLengthByTag =async function(_tag){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?select=_id&tags__in='+_tag, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data.length);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?select=_id&tags__in'+_tag)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogsFromPage = function(_page){
-			var deferred = $q.defer();
-			var blogsSkip = (_page-1)*5;
-			$http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogsFromPage =async function(_page){
+			// var deferred = $q.defer();
+			// var blogsSkip = (_page-1)*5;
+			// $http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogsFromPageByTag = function(_page, _tag){
-			var deferred = $q.defer();
-			var blogsSkip = (_page-1)*5;
-			$http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&tags__in='+_tag, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogsFromPageByTag =async function(_page, _tag){
+			// var deferred = $q.defer();
+			// var blogsSkip = (_page-1)*5;
+			// $http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&tags__in='+_tag, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&tags__in'+_tag)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogByUrl = function(_url){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?url='+_url, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogByUrl =async function(_url){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?url='+_url, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?url='+_url)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogsLengthBySearch = function(_searchString){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?sort=-ngayviet&noidung__regex=/'+_searchString+'/', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data.length);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogsLengthBySearch = async function(_searchString){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?sort=-ngayviet&noidung__regex=/'+_searchString+'/', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data.length);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blog?sort=-ngayviet&noidung__regex=/'+_searchString+'/')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogsBySearch = function(_searchString, _page){
-			var deferred = $q.defer();
-			var blogsSkip = (_page-1)*5;
-			$http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&noidung__regex=/'+_searchString+'/', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).error(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogsBySearch =async function(_searchString, _page){
+			// var deferred = $q.defer();
+			// var blogsSkip = (_page-1)*5;
+			// $http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&noidung__regex=/'+_searchString+'/', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).error(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blog?sort=-ngayviet&limit=5&skip='+blogsSkip+'&noidung__regex=/'+_searchString+'/')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		return service;
 	})

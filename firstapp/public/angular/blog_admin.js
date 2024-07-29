@@ -43,45 +43,74 @@
 	module.factory('blogFactory', function($http, $q){
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
-		service.getBlogs = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog', { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogs = async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog', { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blog')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogById = function(_id){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?_id='+_id, { cache: false})
-		        .success(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogById =async function(_id){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?_id='+_id, { cache: false})
+		    //     .success(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blog?_id='+_id)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.checkBlogUrl = function(_url){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?url='+_url, { cache: false})
-		        .success(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.checkBlogUrl =async function(_url){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?url='+_url, { cache: false})
+		    //     .success(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blog?url='+_url)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.checkBlogUrlEdit = function(_url, _id){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blog?url='+_url+'&_id__nin='+_id, { cache: false})
-		        .success(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.checkBlogUrlEdit =async function(_url, _id){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blog?url='+_url+'&_id__nin='+_id, { cache: false})
+		    //     .success(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blog?url='+_url+'&_id__nin='+_id)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		service.addNewBlog = function(_blog){
 			var deferred = $q.defer();
@@ -173,26 +202,41 @@
 	module.factory('blogImgFactory', function($http, $q){
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
-		service.getBlogImgs = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blogimg', { cache: false})
-		        .success(function(data) {
-		        	data.reverse();
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogImgs = async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blogimg', { cache: false})
+		    //     .success(function(data) {
+		    //     	data.reverse();
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/blogimg')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getBlogImgById = function(_id){
-			var deferred = $q.defer();
-			$http.get(api_url+'/blogimg?_id='+_id, { cache: false})
-		        .success(function(data) {
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getBlogImgById = async function(_id){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/blogimg?_id='+_id, { cache: false})
+		    //     .success(function(data) {
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+			try{
+				await $http.get(api_url+'/blogimg?_id='+_id)
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		service.removeBlogImg = function(_imgObj){
 			var deferred = $q.defer();
@@ -211,16 +255,24 @@
 	module.factory('partnerFactory', function($http, $q){
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
-		service.getPartners = function(){
-			var deferred = $q.defer();
-			$http.get(api_url+'/doitac', { cache: false})
-		        .success(function(data) {
-		        	data.reverse();
-		        	deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+		service.getPartners =async function(){
+			// var deferred = $q.defer();
+			// $http.get(api_url+'/doitac', { cache: false})
+		    //     .success(function(data) {
+		    //     	data.reverse();
+		    //     	deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				await $http.get(api_url+'/doitac')
+				.then(datas=>datas)
+			}catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		service.addPartner = function(_partner){
 			var deferred = $q.defer();

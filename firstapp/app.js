@@ -32,6 +32,8 @@ var methodOverride = require('method-override');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'icon-vuong.ico')));
 app.use(logger('dev'));

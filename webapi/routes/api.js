@@ -99,7 +99,6 @@ const tc = {
    },
    // ... other methods
  };
-
  const q = {
   get: async (req, res) => {
    console.log(req.body)
@@ -116,7 +115,102 @@ const tc = {
   },
   // ... other methods
 };
-
+const p= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await phuong.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const kv= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await khuvuc.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const yc= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await yeucau.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const ctyc= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await chitietyeucau.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const cc= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await chamcong.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const llv= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await lichlamviec.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
 const ngv={
   get:async(req,res)=>{
     try{
@@ -130,7 +224,38 @@ const ngv={
     }
   }
 }
-
+const ngvb= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await ngvban.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const nv= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await nhanvien.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
 const kh={
   get: async(req,res)=>{
     try{
@@ -144,7 +269,6 @@ const kh={
     }
   }
 }
-
 const dt={
   get:async(req,res)=>{
     try{
@@ -156,10 +280,53 @@ const dt={
     }
   }
 }
+const bl= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await blog.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
+const bli= {
+  get: async (req, res) => {
+   console.log(req.body)
+    try {
+      await blogimg.find()
+      .then(datas=>{
+       console.log(datas)
+       return datas;
+     })
+    } catch (error) {
+      console.error("Error fetching tieuchi data:", error);
+      res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
+    }
+  },
+  // ... other methods
+};
 router.get('/',tc.get);
 router.get('/',q.get);
 router.get('/',ngv.get);
 router.get('/',kh.get)
 router.get('/',dt.get)
+router.get('/',bl.get);
+router.get('/',bli.get);
+router.get('/',p.get)
+router.get('/',llv.get)
+router.get('/',kv.get)
+router.get('/',yc.get)
+router.get('/',ctyc.get)
+router.get('/',cc.get);
+router.get('/',ngvb.get)
+router.get('/',nv.get)
+
 //return router
 module.exports = router; 

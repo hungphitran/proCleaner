@@ -513,7 +513,6 @@
 	    	return _kinhnghiems;
 	    }
 	    service.getDSTieuChi = async function(){
-			console.log('lay danh sach tieu chi')
 	    	//var deferred = $q.defer();
 			// $http.get(api_url+'/tieuchi', { cache: false},)
 		    //     .success(function(data) {
@@ -3383,7 +3382,7 @@
 	    };
 	    $scope.$watch('khachhang.sdt', function(newVal, oldVal){
 			if(newVal == null) return;
-			if(newVal.toString().length < 7) {
+			if(newVal.toString().length < 10) {
 				return;
 			}
 			else {
