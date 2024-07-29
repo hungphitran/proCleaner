@@ -1,0 +1,29 @@
+<md-card ng-repeat="Blog in Blogs">
+  <title>Tin tức - ProCleaner</title>
+  <md-card-title>
+    <md-card-title-text layout-wrap="layout-wrap">
+      <div class="nohover"><a ng-href="/blog/{{Blog.url}}" class="md-headline">{{Blog.ten}}</a></div>
+      <md-divider style="margin-top:10px;"></md-divider>
+      <div layout="row" layout-align="start center" style="margin-top:10px;">
+        <i class="fa fa-calendar" style="margin-right:5px;color:#999"></i>
+        <div style="margin-right:5px;color:#999">{{Blog.ngayviet | date:'dd/MM/yyyy':'+0700'}}</div>
+        <i class="fa fa-tag" style="color:#999"></i>
+        <a ng-repeat="tag in Blog.tags" href="/blog/tag/{{tag}}" class="badge" style="margin-left:1px;margin-right:1px">{{tag}}</a>
+      </div>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content layout="column" layout-align="space-between" layout-wrap="layout-wrap">
+    <md-card-actions layout="column"></md-card-actions>
+    <div ng-bind-html="Blog.noidungdaidien | to_trusted"></div>
+    <md-divider></md-divider>
+    <md-card-actions layout="row" layout-align="end center"><a ng-href="/blog/{{Blog.url}}" class="btn-default"><i class="fa fa-2x fa-arrow-right xanhnhat" ></i></a></md-card-actions>
+  </md-card-content>
+</md-card>
+<div layout="row" layout-align="space-between start">
+  <div>
+    <a ng-href="/blog{{PrevPageHref + SearchHref}}" class="btn btn-primary prev_btn" ng-if='showPrevBtn'>Trang trước</a>
+  </div>
+  <div>
+    <a ng-href="/blog{{NextPageHref + SearchHref}}" class="btn btn-primary next_btn" ng-if='showNextBtn'>Trang sau</a>
+  </div>
+</div>

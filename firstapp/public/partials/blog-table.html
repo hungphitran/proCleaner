@@ -1,0 +1,25 @@
+<div ng-controller="adminController_table">
+  <title>Quản lý Blog</title>
+  <div layout="row" layout-align="space-around start" style="padding-top:10px;">
+    <a style="font-size:20px;" ng-href="/blog_admin" class="btn btn-danger btn-sm">Quản lý blog</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/img" class="btn btn-danger btn-sm">Quản lý hình</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/doitac" class="btn btn-danger btn-sm">Quản lý đối tác/khách hàng</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/newblog" class="btn btn-danger btn-sm">Thêm blog</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/img/newimg" class="btn btn-danger btn-sm">Thêm hình</a>
+  </div>
+  <hr>
+  <table ng-table="tableParams" show-filter="true" class="table">
+    <tr ng-repeat="blog in $data">
+      <td title="'Tên'" filter="{ ten: 'text'}" sortable="'ten'">{{blog.ten}}</td>
+      <td title="'Tags'" filter="{ tags: 'text'}" sortable="'tags'">{{blog.tags.toString()}}</td>
+      <td title="'Url'" filter="{ url: 'text'}" sortable="'url'">{{'procleaner.vn/blog/'+blog.url}}</td>
+      <td title="'Ngày viết'" filter="{ ngayviet: 'number'}" sortable="'ngayviet'">{{blog.ngayviet | date:"dd/MM/yyyy 'lúc' h:mma":'+0700'}}</td>
+      <td title="'Xem nội dung'">
+        <a ng-href="/blog_admin/{{blog._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+      </td>
+      <td title="'Xóa blog'">
+        <a ng-click="confirmRemoveBlog(blog)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+      </td>
+    </tr>
+  </table>
+</div>

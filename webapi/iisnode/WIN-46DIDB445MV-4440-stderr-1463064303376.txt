@@ -1,0 +1,12 @@
+SyntaxError: Unexpected token }
+    at Object.parse (native)
+    at parse (C:\Program Files\iisnode\www\webapi\node_modules\body-parser\lib\types\json.js:88:17)
+    at C:\Program Files\iisnode\www\webapi\node_modules\body-parser\lib\read.js:108:18
+    at done (C:\Program Files\iisnode\www\webapi\node_modules\body-parser\node_modules\raw-body\index.js:239:14)
+    at IncomingMessage.onEnd (C:\Program Files\iisnode\www\webapi\node_modules\body-parser\node_modules\raw-body\index.js:285:7)
+    at IncomingMessage.g (events.js:260:16)
+    at emitNone (events.js:67:13)
+    at IncomingMessage.emit (events.js:166:7)
+    at endReadableNT (_stream_readable.js:905:12)
+    at doNTCallback2 (node.js:441:9)
+    at process._tickCallback (node.js:355:17)

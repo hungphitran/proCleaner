@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>iisnode logs</title>
+    <style type="text/css">
+        body
+        {
+            font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
+        }
+        table
+        {
+            border-collapse: collapse;
+        }
+        td, th
+        {
+            border: 1px solid lightgray;
+            padding: 3px 7px 2px 7px;
+        }
+        th
+        {
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: Gray;
+            color: #ffffff;
+        }
+        td.stderr
+        {
+            color: Red;
+        }
+    </style>
+</head>
+<body>
+    <table id="logFilesTable">
+        <tr>
+            <th>
+                Computer name
+            </th>
+            <th>
+                PID
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Link
+            </th>
+        </tr>
+    </table>
+    <p id="lastUpdated"></p>
+    <script type="text/javascript">
+
+        // this is replaced with actual data at runtime by code in interceptor.js
+        var logFiles = [{"file":"WIN-46DIDB445MV-1140-stdout-1463041116094.txt","computername":"WIN-46DIDB445MV","pid":1140,"type":"stdout","created":1463041116094},{"file":"WIN-46DIDB445MV-1376-stdout-1463578926378.txt","computername":"WIN-46DIDB445MV","pid":1376,"type":"stdout","created":1463578926378},{"file":"WIN-46DIDB445MV-1760-stdout-1463037237803.txt","computername":"WIN-46DIDB445MV","pid":1760,"type":"stdout","created":1463037237803},{"file":"WIN-46DIDB445MV-2324-stdout-1463228276470.txt","computername":"WIN-46DIDB445MV","pid":2324,"type":"stdout","created":1463228276470},{"file":"WIN-46DIDB445MV-2660-stdout-1463534225564.txt","computername":"WIN-46DIDB445MV","pid":2660,"type":"stdout","created":1463534225564},{"file":"WIN-46DIDB445MV-3484-stdout-1463553235404.txt","computername":"WIN-46DIDB445MV","pid":3484,"type":"stdout","created":1463553235404},{"file":"WIN-46DIDB445MV-3944-stdout-1463293913551.txt","computername":"WIN-46DIDB445MV","pid":3944,"type":"stdout","created":1463293913551},{"file":"WIN-46DIDB445MV-3948-stdout-1463550197185.txt","computername":"WIN-46DIDB445MV","pid":3948,"type":"stdout","created":1463550197185},{"file":"WIN-46DIDB445MV-404-stdout-1463286453309.txt","computername":"WIN-46DIDB445MV","pid":404,"type":"stdout","created":1463286453309},{"file":"WIN-46DIDB445MV-4160-stdout-1463492102353.txt","computername":"WIN-46DIDB445MV","pid":4160,"type":"stdout","created":1463492102353},{"file":"WIN-46DIDB445MV-4216-stdout-1463115560687.txt","computername":"WIN-46DIDB445MV","pid":4216,"type":"stdout","created":1463115560687},{"file":"WIN-46DIDB445MV-4292-stdout-1463493624341.txt","computername":"WIN-46DIDB445MV","pid":4292,"type":"stdout","created":1463493624341},{"file":"WIN-46DIDB445MV-4336-stdout-1463091524665.txt","computername":"WIN-46DIDB445MV","pid":4336,"type":"stdout","created":1463091524665},{"file":"WIN-46DIDB445MV-4440-stderr-1463064303376.txt","computername":"WIN-46DIDB445MV","pid":4440,"type":"stderr","created":1463064303376},{"file":"WIN-46DIDB445MV-4440-stdout-1463064303239.txt","computername":"WIN-46DIDB445MV","pid":4440,"type":"stdout","created":1463064303239},{"file":"WIN-46DIDB445MV-4580-stdout-1463105280085.txt","computername":"WIN-46DIDB445MV","pid":4580,"type":"stdout","created":1463105280085},{"file":"WIN-46DIDB445MV-4588-stdout-1463314876852.txt","computername":"WIN-46DIDB445MV","pid":4588,"type":"stdout","created":1463314876852},{"file":"WIN-46DIDB445MV-4732-stdout-1463198094478.txt","computername":"WIN-46DIDB445MV","pid":4732,"type":"stdout","created":1463198094478},{"file":"WIN-46DIDB445MV-4760-stdout-1463480298964.txt","computername":"WIN-46DIDB445MV","pid":4760,"type":"stdout","created":1463480298964},{"file":"WIN-46DIDB445MV-4840-stdout-1463116862686.txt","computername":"WIN-46DIDB445MV","pid":4840,"type":"stdout","created":1463116862686},{"file":"WIN-46DIDB445MV-4856-stdout-1463230236405.txt","computername":"WIN-46DIDB445MV","pid":4856,"type":"stdout","created":1463230236405}];
+        var lastUpdated = 1463578941570;
+        var date = new Date();
+
+        date.setTime(lastUpdated);
+        document.getElementById('lastUpdated').innerHTML = 'Index was last updated ' + date;
+
+        logFiles.sort(function (a, b) {
+            return b.created - a.created;
+        });
+
+        var logFilesTable = document.getElementById("logFilesTable");
+        for (var i = 0; i < logFiles.length; i++) {
+            var logFile = logFiles[i];
+            date.setTime(logFile.created);
+            var row = logFilesTable.insertRow(-1);
+            var computerNameCell = row.insertCell(0);
+            var pidCell = row.insertCell(1);
+            var typeCell = row.insertCell(2);
+            var dateCell = row.insertCell(3);
+            var logCell = row.insertCell(4);
+            computerNameCell.innerHTML = logFile.computername;
+            pidCell.innerHTML = logFile.pid.toString();
+            typeCell.innerHTML = logFile.type;
+            typeCell.setAttribute('class', logFile.type);
+            dateCell.innerHTML = date.toString();
+            logCell.innerHTML = '<a href="' + logFile.file + '">log</a>';
+        };
+
+    </script>
+</body>
+</html>

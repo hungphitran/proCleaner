@@ -1,0 +1,194 @@
+#footer{
+    padding-bottom: 20px!important;
+    padding-top: 20px!important;
+}
+body {
+    font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;
+}
+#mainbody{
+  background-color: #f4f4f4;
+}
+section {
+    padding-top: 30px;
+    padding-bottom: 70px;
+    overflow: hidden!important;
+}
+.no_margin h4{
+  margin-top: 0px!important;
+  margin-bottom: 0px!important;
+}
+div.sideblog img{
+  max-height: 80px;
+  max-width: 150px;
+}
+div.sideblog {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px;
+}
+.notruncate {
+  white-space: normal!important;
+  overflow: auto!important;
+  text-overflow: clip;
+}
+.sideblog a{
+  -webkit-transition: color 0.3s;
+  -moz-transition:    color 0.3s;
+  -ms-transition:     color 0.3s;
+  -o-transition:      color 0.3s;
+  transition:         color 0.3s;
+}
+.sideblog a:link {
+  text-decoration: none;
+  color: #02571C;
+}
+
+/* visited link */
+.sideblog a:visited {
+  text-decoration: none;
+  color: green;
+}
+
+/* mouse over link */
+.sideblog a:hover {
+  text-decoration: none;
+  color: #8CC13D;
+}
+/* selected link */
+.sideblog a:active {
+  text-decoration: none;
+  color: #02571C;
+}
+
+.nohover a:link {
+  text-decoration: none;
+  color: #02571C;
+}
+
+/* visited link */
+.nohover a:visited {
+  text-decoration: none;
+  color: #02571C;
+}
+
+/* mouse over link */
+.nohover a:hover {
+  text-decoration: none;
+  color: #02571C;
+}
+/* selected link */
+.nohover a:active {
+  text-decoration: none;
+  color: #02571C;
+}
+.badge {
+    font-weight: normal;
+    background-color: #8CC13D;
+    color:white;
+}
+
+.btn-circle {
+  width: 49px;
+  height: 49px;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+  line-height: 2.00;
+  border-radius: 30px;
+}
+
+.btn-circle-micro {
+  width: 19px;
+  height: 19px;
+  text-align: center;
+  padding: 1px 0;
+  font-size: 13px;
+  line-height: 0.1;
+  border-radius: 30px;
+}
+body.modal-open {
+    overflow: auto;
+}
+body.modal-open[style] {
+    padding-right: 0px !important;
+}
+
+.btn-circle-sm {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  padding: 2px 0;
+  font-size: 20px;
+  line-height: 1.65;
+  border-radius: 30px;
+}
+.bg-dark {
+    color: white;
+    background-color: #02571C;
+}
+.logow{
+    width: 200px!important;
+ }
+.anh_blog_gan_day{
+    width: 90px!important;
+    height: 50px!important;
+    border-radius: 0%!important;
+}
+.font_tag{
+  font-size: small;
+  margin: 3px;
+}
+.next_btn{
+  margin-right: 7px;
+}
+.prev_btn{
+  margin-left: 7px;
+}
+.test{
+  min-height: 1000px;
+}
+.test2{
+  min-height: 200px;
+}
+.xanhnhat{
+  color: #8CC13D;
+}
+.xanhdam{
+  color: #02571C;
+}
+.hinhdaidien{
+  padding-left: 50px;
+  padding-right: 50px;
+}
+md-list .md-subheader {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: .01em;
+    line-height: 1.2em;
+}
+.md-subheader {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: .01em;
+    line-height: 1.2em;
+}
+.btn-primary {
+  border-radius: 0;
+    border-color: #8CC13D;
+    color: #fff;
+    background-color: #8CC13D;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    border-color: #02571C;
+    color: #fff;
+    background-color: #02571C;
+}

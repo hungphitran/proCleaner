@@ -1,0 +1,26 @@
+<div ng-controller="adminController_img">
+  <title>Quản lý hình</title>
+  <div layout="row" layout-align="space-around start" style="padding-top:10px;">
+    <a style="font-size:20px;" ng-href="/blog_admin" class="btn btn-danger btn-sm">Quản lý blog</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/img" class="btn btn-danger btn-sm">Quản lý hình</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/doitac" class="btn btn-danger btn-sm">Quản lý đối tác/khách hàng</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/newblog" class="btn btn-danger btn-sm">Thêm blog</a>
+    <a style="font-size:20px;" ng-href="/blog_admin/img/newimg" class="btn btn-danger btn-sm">Thêm hình</a>
+  </div>
+  <hr>
+  <table ng-table="tableParams" show-filter="true" class="table">
+    <tr ng-repeat="blog_img in $data">
+      <td title="'Hình'">
+        <img ng-src="{{blog_img.url}}" class="img-responsive" style="max-width:200px">
+      </td>
+      <td title="'Tên'" filter="{ ten: 'text'}" sortable="'ten'">{{blog_img.ten}}</td>
+      <td title="'Url'" filter="{ url: 'text'}" sortable="'url'">{{blog_img.url}}</td>
+      <td title="'Xem đủ kích thước'">
+        <a ng-href="{{blog_img.url}}" target="_self" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+      </td>
+      <td title="'Xóa'">
+        <a ng-click="removeBlogImg(blog_img)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+      </td>
+    </tr>
+  </table>
+</div>

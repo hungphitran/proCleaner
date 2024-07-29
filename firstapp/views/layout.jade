@@ -1,0 +1,227 @@
+﻿doctype html
+html
+  head
+    base(href='/')
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='...')
+    meta(name='keywords', content='...')
+    meta(name='author', content='...')
+    link(href='css/bootstrap.css', rel='stylesheet', media='screen')
+    link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.css')
+    link(href='fullcalendar/fullcalendar.css', rel='stylesheet', media='screen')
+    link(href='css/czsale.css', rel='stylesheet', media='screen')
+    link(href='css/czsale-responsive.css', rel='stylesheet', media='screen')
+    link(href='css/czsale-carousel.css', rel='stylesheet', media='screen')
+    link(rel='stylesheet', href='css/animate.min.css', type='text/css')
+    link(rel='stylesheet', href='slick/slick.css', type='text/css')
+    link(rel='stylesheet', href='slick/slick-theme.css', type='text/css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='css/bootstrap-datepicker3.standalone.min.css', type='text/css')
+    link(rel='stylesheet', href='css/bootstrap-select.min.css', type='text/css')
+    link(rel='stylesheet', href='css/preload.css', type='text/css')
+  body(ng-app='SearchModule')
+    .se-pre-con
+    nav#mainNav.navbar.navbar-default.navbar-fixed-top
+      .container(ng-controller='loginController')
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        #navbar.navbar-collapse.collapse(ng-init='checkCookies()')
+          div(layout="row" layout-align="space-between center")
+            a(ng-href='/' target="_self")
+              img.logow(src='img/logo.png', alt='logo Công Ty')
+            div(ng-if='!registed')
+              button.marright.btn.btn-danger(type='button' ng-click='showDangKy()')
+                |  Đăng ký
+              button.marright.btn.btn-danger(type='button' ng-click='showDangNhap()')
+                |  Đăng Nhập
+            div(ng-show='registed')
+              md-list-item
+                img.md-avatar(alt='user', ng-src='{{ "img/NGV.jpg"  }}')
+                .btn-group 
+                  button.btn.btn-danger.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                    | {{khachhang.hoten}}
+                    i.fa.fa-chevron-down.marleft
+                  ul.dropdown-menu
+                    li
+                      a(ng-href='/taikhoan?tab=tttk' target="_self") Thông tin tài khoản
+                    li
+                      a(ng-href='/taikhoan?&tab=lsdh' target="_self") Lịch sử đơn hàng
+                    li.divider(role='separator')
+                    li
+                      a(href='#', ng-click='DangXuat()') Thoát
+        // /.nav-collapse
+        #DangKyForm.modal.fade(role='dialog')
+          div.modal-dialog
+            div.modal-content
+              form(name='formdangky', novalidate)
+                div.modal-header.bgxanhdam
+                  button.chutrang.close(type='button', ng-click='closeDangKy()') ×
+                  h4.biggerfont.modal-title.chutrang Đăng ký
+                div#mypanel.modal-body
+                  div(ng-show='sdtTonTai' layout="row" layout-align="center center")
+                    p Số điện thoại này đã được đăng ký!
+                  div(ng-show='dangkyThanhCong' layout="row" layout-align="center center")
+                    p Đăng ký thành công
+                  div(layout="row" layout-align="center center" ng-show='loadingDangKy')
+                        i.fa.fa-4x.fa-cog.fa-spin.xanhnhat
+                  md-content(layout-padding='')
+                    div(layout='', layout-sm='column')
+                      md-input-container(flex)
+                        label 
+                          i.fa.fa-user.xanhnhat.padright
+                          | Họ tên
+                        input(md-maxlength="30", required, name="hoten", ng-model='khachhang.hoten' autocomplete='off')
+                        div(ng-messages='formdangky.hoten.$error')
+                          div(ng-message='required') Thông tin bắt buộc.
+                          div(ng-message='md-maxlength') Tên không được quá 30 ký tự.
+                    div(layout='', layout-sm='column')
+                      md-input-container(style='width:44%')
+                        label 
+                          i.fa.fa-phone.xanhnhat.padright
+                          | Số đtdđ
+                        input(md-maxlength="15", ng-pattern="/^[0-9]+$/", required, name="sdt", ng-model='khachhang.sdt' autocomplete='off')
+                        div(ng-messages='formdangky.sdt.$error')
+                          div(ng-message='pattern') Số điện thoại không đúng quy định(số từ 1-9).
+                          div(ng-message='required') Thông tin bắt buộc.
+                          div(ng-message='md-maxlength') Số điện thoại không được nhiều hơn 30 ký tự.
+                      md-input-container(style='width:43%')
+                        label 
+                          a.i.fa.fa-shield.xanhnhat.padright
+                          | Mã xác nhận
+                        input(autocomplete='off', ng-model='maxacnhan.nguoidung')
+                      md-button.md-fab.md-mini.md-primary.chutrang(ng-click='layMaXacNhan(0)', ng-disabled='dalayMXNDK')
+                        md-tooltip
+                          | Lấy mã xác nhận
+                        i.fa.fa-shield
+                    div(layout='', layout-sm='column', layout-align="space-between center")
+                      p {{thongbaosdt.dangky}}
+                      p {{thongbaomaxacnhan}}
+                    div(layout='', layout-sm='column')
+                      md-input-container(style='width:87%')
+                        label 
+                          i.fa.fa-map-marker.xanhnhat.padright
+                          | Địa chỉ
+                        input(md-maxlength="150", required, name="diachi", ng-model='khachhang.diachi' autocomplete='off')
+                        div(ng-messages='formdangky.diachi.$error')
+                          div(ng-message='required') Thông tin bắt buộc.
+                          div(ng-message='md-maxlength') Địa chỉ không được nhiều hơn 150 ký tự.
+                      md-button.md-fab.md-mini.md-primary.chutrang(ng-click='layDiaChi()')
+                        md-tooltip
+                          | Lấy địa chỉ hiện tại
+                        i.fa.fa-map
+                    md-checkbox.dongySuDung(ng-model='dongySuDung')
+                      | Đồng ý điều khoản sử dụng của ProCleaner
+                div.modal-footer
+                  button.marleft.btn.btn-danger.pull-right(type="submit", ng-disabled="formdangky.$invalid || kiemtraFormDangKy() || !dongySuDung", ng-click='DangKy()')
+                    i.fa.fa-check
+                    |  Đồng ý
+                  button.marleft.btn.btn-danger.pull-right(type='button' ng-click='closeDangKy()')
+                    i.fa.fa-remove
+                    |  Hủy
+        #DangNhapForm.modal.fade(role='dialog')
+          div.modal-dialog
+            div.modal-content
+              form(name='formdangnhap', novalidate)
+                div.modal-header.bgxanhdam
+                  button.chutrang.close(type='button', ng-click='closeDangNhap()') ×
+                  h4.biggerfont.modal-title.chutrang Đăng Nhập
+                div#mypanel.modal-body
+                  div(ng-show='sdtKhongTonTai' layout="row" layout-align="center center")
+                    p Số điện thoại này không tồn tại!
+                  div(layout="row" layout-align="center center" ng-show='loadingDangNhap')
+                        i.fa.fa-4x.fa-cog.fa-spin.xanhnhat
+                  md-content(layout-padding='')
+                    md-input-container
+                      label 
+                        i.fa.fa-phone.xanhnhat.padright
+                        | Số đtdđ
+                      input(md-maxlength="15", ng-pattern="/^[0-9]+$/", required, name="sdt", ng-model='khachhang.sdt' autocomplete='off')
+                      div(ng-messages='formdangnhap.sdt.$error')
+                        div(ng-message='pattern') Số điện thoại không đúng quy định(số từ 1-9).
+                        div(ng-message='required') Thông tin bắt buộc.
+                        div(ng-message='md-maxlength') Số điện thoại không được nhiều hơn 30 ký tự.
+                    div(layout='', layout-sm='column')
+                      md-input-container(style='width:95%')
+                        label 
+                          a.i.fa.fa-shield.xanhnhat.padright
+                          | Mã xác nhận
+                        input(autocomplete='off', ng-model='maxacnhan.nguoidung')
+                      md-button.md-fab.md-mini.md-primary.chutrang(ng-click='layMaXacNhan(1)', ng-disabled='dalayMXNDN')
+                        md-tooltip(md-direction="left")
+                          | Lấy mã xác nhận
+                        i.fa.fa-shield
+                    div(layout='', layout-sm='column', layout-align="space-between center")
+                      p {{thongbaosdt.dangnhap}}
+                      p {{thongbaomaxacnhan}}
+                div.modal-footer
+                  button.marleft.btn.btn-danger.pull-right(type="button", ng-disabled="formdangnhap.$invalid || kiemtraFormDangNhap()", ng-click='DangNhap(1)')
+                    i.fa.fa-check
+                    |  Đồng ý
+                  button.marleft.btn.btn-danger.pull-right(type='button' ng-click='closeDangNhap()')
+                    i.fa.fa-remove
+                    |  Hủy
+    block search
+    block chitiet
+    block content
+    block taikhoan
+  <script type='text/javascript'>window._sbzq||function(e){e._sbzq=[];var t=e._sbzq;t.push(["_setAccount",32700]);var n=e.location.protocol=="https:"?"https:":"http:";var r=document.createElement("script");r.type="text/javascript";r.async=true;r.src=n+"//static.subiz.com/public/js/loader.js";var i=document.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)}(window);</script>
+  section#footer
+    .container
+      .row
+        .left
+          .form-inline
+            h5.form-group.i.fa.fa-copyright.padright.chutrang 
+            h5.form-group.chutrang Copyright by ProCleaner
+        .right.pull-right
+          a.btn.btn-circle-sm.btn-default.marright(href='#')
+            i.fa.fa-facebook
+          a.btn.btn-circle-sm.btn-default.marright(href='#')
+            i.fa.fa-twitter
+          a.btn.btn-circle-sm.btn-default.marright(href='#')
+            i.fa.fa-google-plus
+          a.btn.btn-circle-sm.btn-default.marright(href='#')
+            i.fa.fa-linkedin
+    
+
+          
+    // JS
+    script(src='js/jquery-2.1.4.min.js')
+    //preload
+    script(src='js/preload.js')
+    script(src='fullcalendar/lib/moment.min.js')
+    script(src='fullcalendar/fullcalendar.js')
+    script(src='js/bootstrap.min.js')
+    script(src='js/respond.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-touch.min.js')
+    script(src='js/angular-slider.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-cookies.js')
+    
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-aria.min.js')
+    script(src='//code.angularjs.org/1.4.4/angular-messages.js')
+    
+    script(src='//ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.js')
+    script(src='js/ui-bootstrap-tpls-0.13.4.min.js')
+    script(src='slick/slick.min.js')
+    script(src='slick/angular/angular-slick.min.js')
+    script(src='fullcalendar/angular_full_calendar.js')
+    script(src='js/bootstrap-datepicker.min.js')
+    script(src='locales/bootstrap-datepicker.vi.min.js')
+    script(src='js/cancelableq.js')
+
+
+    script(src='js/bootstrap-select.min.js')
+    script(src='js/nya-bootstrap-select.js')
+    script(src='angular/core.js')
+    script(src='js/search.js')
+
+    // Custom Theme JavaScript
+    

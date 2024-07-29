@@ -1,0 +1,109 @@
+doctype html
+html
+  head
+    base(href='/')
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='...')
+    meta(name='keywords', content='...')
+    meta(name='author', content='...')
+    link(href='css/bootstrap.css', rel='stylesheet', media='screen')
+    link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='css/preload.css', type='text/css')
+    link(rel='stylesheet', href='css/blog.css', type='text/css')
+  body(ng-app='BlogModule' ng-controller='blogController')
+    .se-pre-con
+    section#navbar(style="background-color:#f4f4f4")
+      nav#mainNav.navbar.navbar-default.navbar-fixed-top
+        .container-fluid
+          // Brand and toggle get grouped for better mobile display
+          .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            a(ng-href='/' target="_self")
+              img.logow(src='img/logo.png', alt='Logo công ty')
+              
+          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            
+    section#mainbody.test
+      .container(layout='row' layout-xs="column" layout-align='space-between start')
+
+        div(flex flex-gt-sm='70' ng-view)
+        
+        div(flex flex-gt-sm='25' layout='column')
+          div.md-whiteframe-1dp(style="background-color:white;margin-top:8px;")
+            br
+            .container(layout='row')
+              input(type='text' ng-model='Search')
+              a.btn.btn-primary.next_btn(ng-href='/blog?timkiem={{Search}}') Tìm kiếm
+            br
+
+          br
+
+          div.md-whiteframe-1dp(style="background-color:white")
+            md-contain(ng-init="initNewestBlogs()")
+              md-list
+                md-subheader.xanhnhat Bài viết gần đây
+                md-divider
+                md-list-item.md-2-line(ng-repeat='blog in NewestBlogs')
+                  div.sideblog(style="max-height:200px")
+                    a(ng-href='/blog/{{blog.url}}')
+                      h5.notruncate {{blog.ten.toUpperCase()}}
+                      div(ng-bind-html="blog.noidungdaidien | to_trusted")
+                    md-divider
+          br
+
+
+          div.md-whiteframe-1dp(style="background-color:white")
+            md-contain(layout='column' ng-init="initTag()")
+              md-subheader.xanhnhat Tags
+              md-divider
+              div(layout-padding)
+                a.btn.btn-primary.font_tag(ng-repeat="tag in MostUsedTag | orderBy:'-count' | limitTo:10" type='button' ng-href='/blog/tag/{{tag.tag}}')
+                  | {{tag.tag.toUpperCase()}}
+
+
+
+    section#footer.bg-dark
+      .container
+        div(layout='row' layout-align='space-between center')
+          div
+            .form-inline
+              h5.form-group.i.fa.fa-copyright.padright.chutrang 
+              h5.form-group.chutrang Copyright by ProCleaner
+          div
+            a.btn.btn-circle-sm.btn-default.marright(href='#')
+              i.fa.fa-facebook
+            a.btn.btn-circle-sm.btn-default.marright(href='#')
+              i.fa.fa-twitter
+            a.btn.btn-circle-sm.btn-default.marright(href='#')
+              i.fa.fa-google-plus
+            a.btn.btn-circle-sm.btn-default.marright(href='#')
+              i.fa.fa-linkedin
+    
+
+          
+    // JS
+    script(src='js/jquery-2.1.4.min.js')
+    //preload
+    script(src='js/preload.js')
+    script(src='js/bootstrap.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-touch.min.js')
+    script(src='js/angular-slider.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-cookies.js')
+    
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-aria.min.js')
+    script(src='//code.angularjs.org/1.4.4/angular-messages.js')
+    
+    script(src='//ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js')
+    script(src='angular/blog.js')
+    // Custom Theme JavaScript
+    
