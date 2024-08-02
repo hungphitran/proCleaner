@@ -19,15 +19,20 @@ function luuXacNhan(sdtkhachhang, callback){
     var xacnhan = new tinnhanDB();
     xacnhan.maxacnhan = taoMaXacNhan();
     xacnhan.sdtkhachhang = sdtkhachhang;
+    console.log('tin nhan luu : ', sdtkhachhang)
     xacnhan.save(function(err){
+        console.log('luu xac nhan loi ne: ',err) 
         if(err){
+            console.log('e1')
             callback(err);
         }else{
+            console.log('e2')
             callback(null, xacnhan);
         }
     })
 }
 function timXacNhan(sdtkhachhang, callback){
+    console.log(sdtkhachhang)
     var query = tinnhanDB.findOne({'sdtkhachhang':sdtkhachhang});
     query.exec(function(err, xacnhan){
         if(err){
@@ -38,7 +43,8 @@ function timXacNhan(sdtkhachhang, callback){
     })
 }
 function xoaXacNhan(sdtkhachhang){
-    var query = tinnhanDB.findOne({'sdtkhachhang':sdtkhachhang}).remove();
+    var query = tinnhanDB.findOne({'sdtkhachhang':sdtkhachhang}).deleteOne();
+    console.log('remove otp')
     query.exec();
 }
 // Exports

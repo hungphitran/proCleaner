@@ -3,6 +3,8 @@ var router = express.Router();
 var request = require("request");
 var xacnhan = require('../models/tinnhan.js') ;
 var Q = require("q");
+var https=require('https')
+
 
 var guiTinNhan = function(sdt, maxacnhan){
   var deferred = Q.defer();
@@ -33,8 +35,9 @@ var guiTinNhan = function(sdt, maxacnhan){
   });
   return deferred.promise;
 }
+
 router.post('/',function(req,res){
-  
+  console.log('request body: ',req.body)
   var maxacnhan = null;
   xacnhan.timXacNhan(req.body.sdt, function(err, xacnhan_callback){
     if(err) throw err;
@@ -42,9 +45,15 @@ router.post('/',function(req,res){
       console.log(xacnhan_callback);
       if(xacnhan_callback != null){
         maxacnhan = xacnhan_callback.maxacnhan;
-        guiTinNhan(req.body.sdt, maxacnhan).then(function(){
-          res.end('done');
-        });
+        guiTinNhan(req.body.sdt, maxacnhan)
+        .then(function(){
+          console.log('gui tin nhan thanh cong toi so : ',req.body.sdt)
+          res.status(200).end('done');
+        })
+        .catch((error)=>{
+          console.log("khong gui dc tin nhan",error)
+          res.status(404).end('error')
+        })
       }else{
         xacnhan.luuXacNhan(req.body.sdt, function(err, xacnhan_callback2){
           if (err) throw err;
@@ -52,8 +61,12 @@ router.post('/',function(req,res){
             console.log(xacnhan_callback2);
             maxacnhan = xacnhan_callback2.maxacnhan;
             guiTinNhan(req.body.sdt, maxacnhan).then(function(){
-              res.end('done');
-            });
+              res.status(200).end('done');
+            })
+            .catch((error)=>{
+              console.log("khong gui dc tin nhan",error)
+              res.status(404).end('error')
+            })
           }
         })
       }
@@ -62,4 +75,5 @@ router.post('/',function(req,res){
   
   
 });
+
 module.exports = router;

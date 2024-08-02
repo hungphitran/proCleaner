@@ -161,6 +161,18 @@ const yc= {
       res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
     }
   },
+  put:async (req,res)=>{
+    let updateData=req.body;
+    delete updateData.id;
+    khachhang.findByIdAndUpdate(req.params.id,updateData, { new: true })
+    .then(yeucau => {
+      if (!yeucau) {
+        return res.status(404).json({ error: 'request not found' });
+      }
+      res.json(yeucau);
+    })
+    .catch(err => res.status(400).json({ error: err.message }));
+  }
   // ... other methods
 };
 const ctyc= {
@@ -177,6 +189,18 @@ const ctyc= {
       res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
     }
   },
+  put:async(req,res)=>{
+    let updateData=req.body;
+    delete updateData.id;
+    khachhang.findByIdAndUpdate(req.params.id,updateData, { new: true })
+    .then(chitietyeucau => {
+      if (!chitietyeucau) {
+        return res.status(404).json({ error: 'request not found' });
+      }
+      res.json(chitietyeucau);
+    })
+    .catch(err => res.status(400).json({ error: err.message }));
+  }
   // ... other methods
 };
 const cc= {
@@ -267,6 +291,23 @@ const kh={
       console.error("Error fetching tieuchi data:", error);
       res.status(500).json({ message: "Internal server error" }); // Send a more informative error message to the client
     }
+  }, post: (req,res)=>{
+    const new_khachhang=req.body;
+    console.log('api khach hang: ',req.body)
+    new_khachhang.save()
+    .then(khachhang => res.status(201).json(khachhang))
+    .catch(err => res.status(400).json({ error: err.message }))
+  },put:(req,res)=>{
+    let updateData=req.body;
+    delete updateData.id;
+    khachhang.findByIdAndUpdate(req.params.id,updateData, { new: true })
+    .then(khachhang => {
+      if (!khachhang) {
+        return res.status(404).json({ error: 'Khachhang not found' });
+      }
+      res.json(khachhang);
+    })
+    .catch(err => res.status(400).json({ error: err.message }));
   }
 }
 const dt={
@@ -316,6 +357,8 @@ router.get('/',tc.get);
 router.get('/',q.get);
 router.get('/',ngv.get);
 router.get('/',kh.get)
+router.post('/',kh.post)
+router.put('/:id',kh.put)
 router.get('/',dt.get)
 router.get('/',bl.get);
 router.get('/',bli.get);

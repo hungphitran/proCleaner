@@ -668,7 +668,7 @@
 		var service = {};
 		var api_url = 'http://localhost:4444/api';
 		//lưu khách hàng
-		service.timKhachHang = async function(sdt){
+		service.timKhachHang = function(sdt){
 			// var deferred = $q.defer();
 			// var q = '?sdt=' + sdt;
 			// $http.get(api_url+'/khachhang'+q, { cache: false})
@@ -681,15 +681,16 @@
 		    // return deferred.promise;
 
 			try {
-				const response = await $http.get(api_url + '/khachhang'+'?sdt='+sdt, { cache: false });
-				return response.data;
+				const response = $http.get(api_url + '/khachhang'+'?sdt='+sdt, { cache: false });
+				console.log('lay khach hang = sdt: ',response);
+				return response;
 			} catch (error) {
 				console.error('Error1:', error);
 				throw error;
 			}
 	    }
 		service.luuKhachHang = function(khachhang){
-			var deferred = $q.defer();
+			//var deferred = $q.defer();
 			var new_khachhang = JSON.stringify({
 			    hoten: khachhang.hoten,
 			    sdt: khachhang.sdt,
@@ -697,32 +698,48 @@
 			    diachi: khachhang.diachi,
 			    email: "kocoemail",
 		 	});
-			$http({url: api_url+'/khachhang',
-	            method: "POST",
-	            data: new_khachhang,
-	            headers: {'Content-Type': 'application/json'}
-	        }).then(function (data, status, headers, config) {
-	        		deferred.resolve(data);
-	            }).catch(function (data, status, headers, config) {
-	                console.log('Error: ' + data);
-	            });
-	        return deferred.promise;
+			// $http.post({url: api_url+'/khachhang',
+	        //     method: "POST",
+	        //     data: new_khachhang,
+	        //     headers: {'Content-Type': 'application/json'}
+	        // }).then(function (data, status, headers, config) {
+
+	        // 	deferred.resolve(data);
+	        //     }).catch(function (data, status, headers, config) {
+	        //         console.log('Error: ' + data);
+	        //     });
+	        // return deferred.promise;
+
+			try{
+				const response=$http.post(api_url+'/khachhang',new_khachhang)
+				return response;
+			}
+			catch(error){
+				console.error('khong the luu khach hang: ',error)
+			}
 		}
         
-		service.LayLichLvKhiLuu = function(ngay, giobd, giokt, cmnd){
+		service.LayLichLvKhiLuu = async function(ngay, giobd, giokt, cmnd){
 			var deferred = $q.defer();
 			var q_ngv_trunglich = '?ngaylam=' + ngay +
 				'&giobatdau__lte=' + giokt +
 				'&gioketthuc__gte=' + giobd +
 				'&cmnd=' + cmnd;
-			$http.get(api_url+'/lichlamviec'+q_ngv_trunglich, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        })
-		        .catch(function(data) {
-		            console.log('Error: ' + data);
-        	});
-	        return deferred.promise;
+			// $http.get(api_url+'/lichlamviec'+q_ngv_trunglich, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     })
+		    //     .catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// });
+	        // return deferred.promise;
+			try {
+				const response = await $http.get(api_url + '/lichlamviec'+ q_ngv_trunglich, { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		service.tinhSoGioNgoaiGioCtyc = function(giobd1, giokt1){
 	    	var tgngoaigio_sang = 0;
@@ -873,54 +890,76 @@
 		    return deferred.promise;
 		}
 		service.layMaXacNhan = function(sdtkhachhang){
-			
+			console.log('sdt khach hang: ',sdtkhachhang);
 			var deferred = $q.defer();
 			var tinnhan = {
 				sdt: sdtkhachhang
 			}
 			$http.post('/layTinNhanXacNhan', tinnhan)
 		        .then(function(data) {
+					console.log('core post: ',data)
 	        		deferred.resolve(data);
 		        }).catch(function(data) {
 		            console.log('Error: ' + data);
         		});
 			return;
 		}
-		service.getYeuCauNh = function(sdt){
-			var deferred = $q.defer();
+		service.getYeuCauNh = async function(sdt){
+			// var deferred = $q.defer();
 			var q = '?sdtkhachhang=0' + sdt + '&loaiyeucau=Ngắn hạn';
-			$http.get(api_url+'/yeucau'+q, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        })
-		        .catch(function(data) {
-		            console.log('Error: ' + data);
-        	});
-		    return deferred.promise;
+			// $http.get(api_url+'/yeucau'+q, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     })
+		    //     .catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// });
+		    // return deferred.promise;
+			try {
+				const response = await $http.get(api_url + '/yeucau'+q, { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getYeuCauDh = function(sdt){
+		service.getYeuCauDh =async function(sdt){
 			var deferred = $q.defer();
 			var q = '?sdtkhachhang=0' + sdt + '&loaiyeucau=Dài hạn';
-			$http.get(api_url+'/yeucau'+q, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        })
-		        .catch(function(data) {
-		            console.log('Error: ' + data);
-        	});
-		    return deferred.promise;
+			// $http.get(api_url+'/yeucau'+q, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     })
+		    //     .catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// });
+		    // return deferred.promise;
+			try {
+				const response = await $http.get(api_url + '/yeucau'+q, { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
-		service.getChiTietYeuCau = function(id){
+		service.getChiTietYeuCau =async function(id){
 			var deferred = $q.defer();
 			var q = '?idyeucau=' + id;
-			$http.get(api_url+'/chitietyeucau'+q, { cache: false})
-		        .then(function(data) {
-		        	deferred.resolve(data);
-		        })
-		        .catch(function(data) {
-		            console.log('Error: ' + data);
-        	});
-		    return deferred.promise;
+			// $http.get(api_url+'/chitietyeucau'+q, { cache: false})
+		    //     .then(function(data) {
+		    //     	deferred.resolve(data);
+		    //     })
+		    //     .catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// });
+		    // return deferred.promise;
+			try {
+				const response = await $http.get(api_url + '/chitietyeucau'+q, { cache: false });
+				return response.data;
+			} catch (error) {
+				console.error('Error1:', error);
+				throw error;
+			}
 		}
 		service.luuNhanXet = function(ctyc, nhanxet, hudo, matdo){
 			var _hudo = 'Không';
@@ -984,18 +1023,29 @@
 	        return deferred.promise;
 		}
 		service.xacthucThongTin = function(sdtkhachhang, maxacnhan){
-			var deferred = $q.defer();
+			console.log("xacthuc: ",sdtkhachhang,maxacnhan)
+			//var deferred = $q.defer();
 			var thongtinkh = {
 				sdt: sdtkhachhang,
 				maxacnhan: maxacnhan
 			}
-			$http.post('/xacthuc', thongtinkh)
-		        .then(function(data) {
-	        		deferred.resolve(data);
-		        }).catch(function(data) {
-		            console.log('Error: ' + data);
-        		});
-		    return deferred.promise;
+			// $http.post('http://localhost:3000/xacthuc', thongtinkh)
+		    //     .then(function(data) {
+			// 		console.log("core :", data);
+	        // 		deferred.resolve(data);
+		    //     }).catch(function(data) {
+		    //         console.log('Error: ' + data);
+        	// 	});
+		    // return deferred.promise;
+
+			try{
+				const response=$http.post('http://localhost:3000/xacthuc',thongtinkh)
+				console.log('xac nhan tra ve: ',response)
+				return response;
+			}
+			catch(err){
+				console.error('khong the xac thuc',err);
+			}
 		}
 		return service;
 
@@ -1150,11 +1200,12 @@
 		//--------------watch----------------------------
 		$scope.$watch('khachhang.sdt', function(newVal, oldVal){
 			if(newVal == null) return;
-			if(newVal.toString().length < 7) {
+			if(newVal.toString().length < 10) {
 				return;
 			}
 			else {
-				thanhtoanFactory.timKhachHang($scope.khachhang.sdt).then(function(data){
+				thanhtoanFactory.timKhachHang($scope.khachhang.sdt)
+				.then(function(data){
 					if(data.length > 0){
 						$scope.khachhang.hoten = data[0].hoten;
 						$scope.khachhang.diachi = data[0].diachi
@@ -2469,6 +2520,7 @@
 				return true;
 		}
 		$scope.$watch('khachhang.sdt', function(newVal, oldVal){
+			console.log('watch sdt :', newVal.toString().length)
 			if(newVal == null) return;
 			if(newVal.toString().length < 10) {
 				$scope.thongbaosdt.dangky = 'Số điện thoại phải từ 10 số';
@@ -2477,8 +2529,11 @@
 				$scope.daxacnhansdt.dangnhap = false;
 			}
 			else {
+				console.log($scope.khachhang.sdt)
 				thanhtoanFactory.timKhachHang($scope.khachhang.sdt)
 				.then(function(data){
+					data=data.data;
+					console.log("tai khoan tim duoc voi sdt:",data)
 					if(data.length > 0){
 						$scope.thongbaosdt.dangky = 'số này đã được đăng ký!!';
 						$scope.thongbaosdt.dangnhap = '';
@@ -2496,13 +2551,15 @@
 		$scope.DangKy = function(){
 			khachhangFactory.xacthucThongTin(
 				$scope.khachhang.sdt, $scope.maxacnhan.nguoidung).then(function(data){
-					if(data == 'true'){
+					console.log('thong tin xac thuc :' , data)
+					if(data.data == 'true'){
 						$scope.thongbaomaxacnhan = '';
 						$scope.loadingDangKy = true;
 						thanhtoanFactory.timKhachHang($scope.khachhang.sdt).then(function(data){
 							if(!data.length > 0){
-								thanhtoanFactory.luuKhachHang($scope.khachhang).then(function(data){
-									console.log(data);
+								thanhtoanFactory.luuKhachHang($scope.khachhang)
+								.then(function(data){
+									console.log('khach hang dc luu: ',data);
 									$scope.loadingDangKy = false;
 									$scope.dangkyThanhCong = true;
 									$timeout(function(){
@@ -2599,8 +2656,10 @@
 			$('#DangNhapForm').modal('hide');
 		}
 		var DangNhapb2 = function(kieudangnhap){
-			thanhtoanFactory.timKhachHang($scope.khachhang.sdt).then(function(data){
-				if(data.length > 0){
+			thanhtoanFactory.timKhachHang($scope.khachhang.sdt)
+			.then(function(data){
+				console.log('dang nhap b2: ',data,)
+				if(data.data.length > 0){
 					$('#DangNhapForm').modal('hide');
 					$scope.registed = true;
 					$scope.khachhang.sdt = data[0].sdt;
@@ -2609,6 +2668,7 @@
 					var expireDate = new Date();
   					expireDate.setDate(expireDate.getDate() + 1);
 					$cookies.put('khachhang', data[0].sdt, {'expires': expireDate});
+					console.log('cookies putting')
 					khachhangFactory.setKhachHang($scope.khachhang);
 					$scope.khachhang = khachhangFactory.getKhachHang();
 					$scope.loadingDangNhap = false;
@@ -2625,8 +2685,10 @@
 		}
 		$scope.DangNhap = function(kieudangnhap){
 			khachhangFactory.xacthucThongTin(
-				$scope.khachhang.sdt, $scope.maxacnhan.nguoidung).then(function(data){
-					if(data == 'true'){
+				$scope.khachhang.sdt, $scope.maxacnhan.nguoidung)
+				.then(function(data){
+					console.log('data dang nhap: ',data)
+					if(data.data == 'true'){
 						$scope.loadingDangNhap = true;
 						DangNhapb2(kieudangnhap);
 					}else{
