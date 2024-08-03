@@ -7,8 +7,9 @@ var https = require('follow-redirects').https;
 var fs = require('fs')
 // sid:ACa9bebf9fa456a6be6a48cae7b72f406c
 //token: cd8602a2fb0e6d6ee9a4c1820fb2caf6
+require('dotenv').config()
 
-const appId = 'e1dccb7ef8daafff5fd630f92049e054-fb97314d-44e8-4885-a83d-7c755338d41d';
+
 
 
 var guiTinNhan= async function(sdt,maxacnhan){
@@ -22,7 +23,7 @@ var guiTinNhan= async function(sdt,maxacnhan){
       'hostname': '1vk4dn.api.infobip.com',
       'path': '/sms/2/text/advanced',
       'headers': {
-          'Authorization': 'App e1dccb7ef8daafff5fd630f92049e054-fb97314d-44e8-4885-a83d-7c755338d41d',
+          'Authorization': `App ${process.env.appId}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json'
       },
