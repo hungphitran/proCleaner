@@ -5,7 +5,6 @@ var tinnhanSchema = new db.Schema({
     thoigianhethan: { type: Date, expires: 5*60, default: Date.now }
 });
 
-
 var tinnhanDB = db.mongoose.model('tinnhanxacnhan', tinnhanSchema);
 
 //ham random ma xac nhan

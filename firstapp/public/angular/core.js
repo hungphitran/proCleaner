@@ -2658,8 +2658,9 @@
 		var DangNhapb2 = function(kieudangnhap){
 			thanhtoanFactory.timKhachHang($scope.khachhang.sdt)
 			.then(function(data){
-				console.log('dang nhap b2: ',data,)
+				console.log('dang nhap b2: ',data)
 				if(data.data.length > 0){
+					data=data.data
 					$('#DangNhapForm').modal('hide');
 					$scope.registed = true;
 					$scope.khachhang.sdt = data[0].sdt;
@@ -3367,7 +3368,9 @@
 	            }
         	]
 		}
-		ngvFactory.layDanhSachNgvAll().then(function(data){
+		ngvFactory.layDanhSachNgvAll()
+		.then(function(data){
+			console.log('slick lay ngv: ',data)
 			$scope.dsNgv = data;
 			$scope.loadingSlick = false;
 		})

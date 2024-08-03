@@ -381,7 +381,7 @@ html(lang='en')
             .col-xs-6.col-sm-3(ng-repeat='ngv in dsNgv | orderBy: "-sonamkinhnghiem"')
               .thumbnail.center-block
                 a.portfolio-box(data-ng-if="!refreshing" ng-click='xemChiTietNgv(ngv._id)' ng-href='#')
-                  img.img-responsive(ng-src='{{"http://localhost:3000/public/img/ngv/" + ngv.hinhanh}}', alt='Ảnh đại diện')
+                  img.img-responsive(ng-src='{{"http://localhost/public/img/ngv/" + ngv.hinhanh}}', alt='Ảnh đại diện')
                   .portfolio-box-caption
                     .portfolio-box-caption-content
                       .project-category.text-faded
